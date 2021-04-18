@@ -85,8 +85,62 @@ show();
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/this
 https://qiita.com/takkyun/items/c6e2f2cf25327299cf03
 # apply, call, bind について
-引数に配列ならapply
-そうでないならcall
+ `call()` は `this` のオブジェクトを指定できる関数になっています。
+```javascript:script.js
+function sayHi(){
+    let hi = `Hi, ${this.name}`;
+    console.log(hi);
+}
+let obj = {name : "kenji"}
+
+sayHi.call(obj)
+```
+ `apply()` も `this` のオブジェクトを指定できる関数になっています。では、`call()` と `apply()` はどういう風に使い分けるのでしょうか？  
+それは簡単で引数が単数なら `call()` を使い、 引数が複数なら`apply()`を使います。
+```javascript:script.js
+const array = [ 1, 2, 3, 4];
+sayHi.apply(obj, array)
+```
+`bind()` は `this` のオブジェクトを束縛できる関数になっています。
+
+```javascript:script.js
+/**
+ *  bind()を使用しない場合
+ */
+
+let obj = {
+  id : 1,
+  show(){
+    console.log(this);
+    setTimeout(function() {
+      console.log(this)
+    }, 1000);
+  }
+}
+
+obj.show();
+// obj
+// undined // グローバルオブジェクトを参照しています。
+
+/**
+ *  bind()を使用した場合
+ */
+
+let obj = {
+  id : 1,
+  show(){
+    console.log(this);
+
+    setTimeout(function() {
+      console.log(this)
+    }.bind(this), 1000);
+  }
+}
+
+obj.show();
+// obj
+// obj // obj をポイントするようになる
+```
 
 # アロー関数 について
 適切にアロー関数を使用すると、可読性を上げる有用的な機能になります。ボクのような初級者でも目にしたことのある関数ですね。
@@ -111,10 +165,13 @@ arrowFunction = (argument1, argument2) => {
 }
 ```
 
-### アロー関数 と 通常関数 の動きの違いに関して
+## アロー関数 と 通常関数 の動きの違いに関して
 
 通常関数 　→ apply, call, bind →　指定できる
 アロー関数 → apply, call, bind →　無視される
+
+```javascript:script.js
+```
 
 参考にした記事
 https://qiita.com/suin/items/a44825d253d023e31e4d
