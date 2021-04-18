@@ -3,7 +3,7 @@ title: "JavaScriptの基礎まとめ【前半】"
 emoji: "🐥"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "初学者"]
-published: false
+published: true
 ---
 # はじめに
 JavaScriptの初級者が実務で学んだ事や、公式ドキュメントや技術書でインプットした内容を記事としてアウトプットさせていただいてます。もし、不適切な箇所があればご指摘よろしくお願いします。
