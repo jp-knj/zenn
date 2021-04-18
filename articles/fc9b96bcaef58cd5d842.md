@@ -1,5 +1,5 @@
 ---
-title: "JavaScriptの基礎まとめ?"
+title: "JavaScriptの基礎まとめ【前半】"
 emoji: "🐥"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "初学者"]
@@ -165,26 +165,28 @@ arrowFunction = (argument1, argument2) => {
 }
 ```
 
-## アロー関数 と 通常関数 の動きの違いに関して
+参考にした記事
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+## クロージャー
+> クロージャは、組み合わされた（囲まれた）関数と、その周囲の状態（レキシカル環境）への参照の組み合わせです。言い換えれば、クロージャは内側の関数から外側の関数スコープへのアクセスを提供します。JavaScript では、関数が作成されるたびにクロージャが作成されます。[引用元](https://developer.mozilla.org/ja/docs/Web/JavaScript/Closures)
 
-通常関数 　→ apply, call, bind →　指定できる
-アロー関数 → apply, call, bind →　無視される
+ボク自身、この説明では理解できなかったのでどういう性質を持っているか、コードで見ていきました。
+親の戻り値の関数の範囲( レキシカルスコープ )にある 変数`counter`は外側から参照されない仕組みになっているそうです。関数内と関数外の`counter`は別々の変数になっています。
 
 ```javascript:script.js
+// 即時関数を使用しています
+let increment = (function(){
+  let counter = 0; 
+  return function(){
+    counter += 1;
+    console.log(counter);
+  }
+})();
+
+increment.counter = 2; // 関数外から変数の値を変更する
+increment(); // 1
+increment(); // 2
+increment(); // 3
 ```
 
-参考にした記事
-https://qiita.com/suin/items/a44825d253d023e31e4d
-## クロージャー
-
-## スプレッド構文
-
-## 分割代入
-
-## テンプレートリテラル
-
-## Callback 関数
-
-## Promise 関数
-
-## Async / Await 関数
+## 後半へ
