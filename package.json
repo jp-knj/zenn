@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "browser-sync": "^2.26.14",
-    "zenn-cli": "^0.1.90"
+    "zenn-cli": "^0.1.95"
   }
 }
