@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "実務で学んだReactのデザインパターンとTips"
 emoji: "🎉"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: []
