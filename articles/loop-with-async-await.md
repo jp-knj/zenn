@@ -22,8 +22,6 @@ module.exports = { getCharacter, characterIds };
 ```
 
 ```javascript:for.js
-const { getCharacter, characterIds } = require('./api.js');
-
 let result = [];
 (async function() {
   console.time('get character')
@@ -34,4 +32,19 @@ let result = [];
   console.timeEnd('get character')
   console.log(results);
 })();
+// RESULT: 1.177s
+```
+
+```javascript:for.js
+let result = [];
+(async function() {
+  console.time('get character')
+  characterIds.forEach(async(id) => {
+    const character = await getCharacter(id);
+    results.push(`${character.id}:${character.name}`);
+  });
+  console.timeEnd('get character')
+  console.log(results);
+})();
+// RESULT: 12.563ms 
 ```
