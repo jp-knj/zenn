@@ -36,7 +36,9 @@ axiosを読み込み、endpoint[^1]を定義します。
 これから、本題に進みます
 ## 非同期で for について考える
 ```javascript:for.js
-let result = [];
+const { getCharacter, characterIds } = require('./api')
+
+let results = [];
 (async function() {
   console.time('get character') // タイマーの開始する
   
@@ -48,16 +50,31 @@ let result = [];
   
   console.log(results);
 })();
-// Time : 1.177s 
-// Result : []
+// TIME: 1.177s 
+// RESULTS: [
+// '1:Rick Sanchez',
+// '2:Morty Smith',
+// '3:Summer Smith',
+// '4:Beth Smith',
+// '5:Jerry Smith',
+// '6:Abadango Cluster Princess',
+// '7:Abradolf Lincler',
+// '8:Adjudicator Rick',
+// '9:Agency Director',
+// '10:Alan Rails'
+// ]
 ```
 
-> タイマー
-> 特定の操作にかかる時間を計るため、タイマーを設定することができます。タイマーを開始するには、引数で名前を指定して console.time() メソッドを呼び出します。タイマーを停止して経過時間をミリ秒単位で取得するには、タイマーの名前をまた引数で指定して console.timeEnd() メソッドを呼び出します。ページあたり最大 10,000 個のタイマーを同時に動かすことができます。
+即時関数[^2]の本体に経過時間を図るため`console.time`[^3] と`console.timeEnd`[^4]を利用します。
+実行すると、経過時間は *1.177s* かかり、体感で遅いと分かります。
 
-引用 : [mozilla](https://developer.mozilla.org/ja/docs/Web/API/console#timers)
+では、forEach の場合はどうなるのでしょうか？
 
+[^2]: 関数を定義すると同時に実行するための構文。関数の定義と実行するためコードを分別せずに即時関数にしております。
+[^3]: 測りたい処理の開始時にconsole.time()を呼び出す。このとき引数にラベル名を渡す必要がある。
+[^4]: 計測終了したいタイミングでconsole.timeEnd()を呼び出す。このとき引数には同じラベル名を渡す。
 
+## 非同期で forEach について考える
 ```javascript:forEach.js
 let result = [];
 (async function() {
@@ -70,53 +87,43 @@ let result = [];
   console.log(results);
 })();
 
-// TIME : 12.563ms 
-// RESULT: []
+// TIME: 12.563ms 
+// RESULTS: []
 ```
 
 実行時間は `12,563ms`とかなり早かったのですが、`empty` が戻ってきました。
-これは記述のミスではなく、`async/await`(非同期処理) をするとき forEach は使えないのです。
+実は`async/await`(非同期処理) をするとき forEach は使えないのです。
 
-forEachは何が来ようが、コールバックの返り値を無視します。結果、async関数が生成したPromiseも無視されて、awaitされることもなく進んでしまいます。
+### なぜ、非同期では forEach は使えないでしょうか？
+forEach[^5]のコールバックの返り値は`undefined`になります。なので、引数に`async関数`(Promise)を入力された`await`されることもなく、`empty`になる
 
-map と Promise.all
+[^5]: [forEach](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
+
+では非同期をするにはどうすればよいのでしょうか？
+
+## 非同期で map と Promise.all について考える
 ```javascript:map.js
-(async function() {
-  console.time('get character')
-  
-  const mapResult = characterIds.map((id) => {
-    return getCharacter(id);
-  });
-  
-  const results = await Promise.all(mapResult);
-  console.timeEnd('get character')
-  console.log(results);
+const { getCharacter, characterIds } = require("./api");
+
+(async function () {
+    console.time('get character')
+
+    const mapResult = characterIds.map((id) => {
+        return getCharacter(id);
+    });
+
+    const results = await Promise.all(mapResult);
+    console.timeEnd('get character')
+    console.log(results);
 })();
+
 // TIME : 170.563ms 
-// RESULT: [{
-      "id": 1,
-      "name": "Rick Sanchez",
-      "status": "Alive",
-      "species": "Human",
-      "type": "",
-      "gender": "Male",
-      "origin": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/1"
-      },
-      "location": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/20"
-      },
-      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-      "episode": [
-        "https://rickandmortyapi.com/api/episode/1",
-        "https://rickandmortyapi.com/api/episode/2",
-        // ...
-      ],
-      "url": "https://rickandmortyapi.com/api/character/1",
-      "created": "2017-11-04T18:48:46.250Z"
-    },
-    // ...
-]
+// RESULTS: [
+//   {
+//     id: 1,
+//     name: 'Rick Sanchez'
+//     // ...
+//   },
+//   // ...
+// ]
 ```
