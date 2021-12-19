@@ -3,7 +3,7 @@ title: 【初学者向け】非同期で考えるとループ処理がわかる�
 emoji: "📚"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ['javascript']
-published: false
+published: true 
 ---
 
 # はじめに 
