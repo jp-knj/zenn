@@ -46,6 +46,9 @@ published: false
 - ソースコードファイルの隣接にテストファイルを配置する
 ## テストレベルについて
 
+## Rustのテストを参考に
+
+https://doc.rust-jp.rs/book-ja/ch11-00-testing.html
 ## テスト戦略
 
 ## さいごに
