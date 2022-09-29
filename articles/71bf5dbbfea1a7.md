@@ -1,10 +1,11 @@
 ---
-title: ""
-emoji: "🐈"
-type: "idea" 
-topics: []
-published: false
+title: "Sample"
+emoji: "🎉"
+type: "tech" # tech: 技術記事 / idea: アイデア
+topics: ['react', 'typescript']
+published: false 
 ---
+
 可読性の高いテストコードや TypeScript をしようしたテスト戦略を考えて、要約した記事となります。
 ですが、以下の内容には誤りがある可能性があります。もし何かあれば、ご教示頂けると幸いです。
 
