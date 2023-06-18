@@ -41,15 +41,15 @@ https://youtu.be/Dtd40cHQQlk
 
 ### 3部 デザインシステムを構築しよう
 Habitz チームが Figma でデザインシステムを構築していく様子をみてみよう。
-- Chapter14
-- Chapter15
-- Chapter16
-- Chapter17
-- Chapter18
-- Chapter19
-- Chapter20
-- Chapter21
-- Chapter22
+- Chapter14 デザインシステムの構築
+- Chapter15 ライブラリの用意をする
+- Chapter16 ファンデーションを構築する
+- Chapter17 カラーのスタイルを作成する 
+- Chapter18 タイポグラフィのスタイルを作成する
+- Chapter19 エレベーションのスタイルを作成する
+- Chapter20 アイコンのスタイルを作成する
+- Chapter21 コンポーネントを構築する
+- Chapter22 パターンを定義する
 
 ### 4部 デザインシステムを育もう
 デザインシステムのドキュメントを作成して、フィードバックを得て改善・保守する方法を探ります。
