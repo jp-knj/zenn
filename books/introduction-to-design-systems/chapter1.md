@@ -33,7 +33,7 @@ https://youtu.be/Dtd40cHQQlk
 - Chapter6 プリンシプルについて
 - Chapter7 ファンデーションのアクセシビリティ、カラーについて
 - Chapter8 タイポグラフィについて
-- Chapter9 高度について
+- Chapter9 エレベーションについて
 - Chapter10 アイコンについて
 - Chapter11 スペースシステムについて
 - Chapter12 ドキュメントについて
