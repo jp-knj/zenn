@@ -30,14 +30,14 @@ https://youtu.be/Dtd40cHQQlk
 
 ### 2部 デザインシステムを定義しよう
 デザインシステムにはどんな構成要素で組み合わさって構築されるのかを探る。
-- Chapter6
-- Chapter7
-- Chapter8
-- Chapter9
-- Chapter10
-- Chapter11
-- Chapter12
-- Chapter13
+- Chapter6 プリンシプルについて
+- Chapter7 ファンデーションのアクセシビリティ、カラーについて
+- Chapter8 タイポグラフィについて
+- Chapter9 高度について
+- Chapter10 アイコンについて
+- Chapter11 スペースシステムについて
+- Chapter12 ドキュメントについて
+- Chapter13 プロセスについて
 
 ### 3部 デザインシステムを構築しよう
 Habitz チームが Figma でデザインシステムを構築していく様子をみてみよう。

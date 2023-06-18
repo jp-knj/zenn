@@ -1,7 +1,6 @@
 ---
-title: "プロセスについて"
+title: "デザインシステムを定義しよう - プロセスについて"
 ---
-## プロセス 
 
 https://youtu.be/NGGMGybuOwg
 
