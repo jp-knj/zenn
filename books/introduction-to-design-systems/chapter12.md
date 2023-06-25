@@ -71,3 +71,17 @@ Documentation （以後ドキュメントと書きます)、はデザインシ�
 ![](https://storage.googleapis.com/zenn-user-upload/71573b384498-20230604.png)
 
 使い始めたばかりの頃は、ドキュメントを作成するのが怖いものです。あなたとシステムの成長に合わせて、常に進化させ、更新していきましょう。
+
+---
+筆者の個人的な感想になりますが、
+Dev Mode がリリースされたことで、Figma で作成したデザインをよりコーディングしやすくなりました。
+https://www.youtube.com/watch?v=__ABPkb0aF8
+
+デザイナーと開発者のコラボレーションをどう実現できるかについて、実践的な視点から解説されている動画です。
+https://config.figma.com/video-on-demand/6329935678112
+
+ワークフローをスピードアップするためにFigmaプラグインを開発するのも一つのコラボレーションの仕方です。チームのためにどのように作り始めるのかも興味深いもこちらを参考になると思います。
+https://config.figma.com/video-on-demand?slug=6329936019112
+
+エンジニアの方は、Figma API を使って、プラグインを作成することもできるので、ぜひチャレンジしてみてください。
+https://www.figma.com/developers/api
