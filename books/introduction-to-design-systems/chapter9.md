@@ -5,9 +5,14 @@ title: "デザインシステムを定義しよう - エレベーションにつ
 
 ![](https://storage.googleapis.com/zenn-user-upload/5eb44ec9a389-20230604.png)
 
+---
+筆者の個人的な意見になりますが、
 エレベーションという言葉に馴染みのない方は、Material Design, indigo design のドキュメントを参照するのをおすすめします。
 https://m2.material.io/design/environment/elevation.html
 https://jp.infragistics.com/products/indigo-design/help/style/elevation
+
+英語のドキュメントに苦手意識のある方は SmartHR Design のドキュメントを参照するのをおすすめします。
+https://smarthr.design/products/design-tokens/shadow/
 
 ### エレベーションの Tips
 - エレベーションを使用する場所やタイミング、使用するかどうかに気をつけましょう。
