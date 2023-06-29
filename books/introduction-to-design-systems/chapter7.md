@@ -50,32 +50,32 @@ https://config.figma.com/video-on-demand/6329862675112
 
 ![](https://storage.googleapis.com/zenn-user-upload/f5e088717723-20230618.png)
 
-多すぎると混沌としてしまいますが、少なすぎるとデザインの自由度が低くなってしまいます。特に、異なるテーマに対して色をどのように適応させるか考えるのは難しい問題です。
+多すぎると混沌としてしまいますが、少なすぎるとデザインの自由度が低くなってしまいます。特に、異なるテーマに対して色をどのように適応させるかを考えるのは難しい問題です。
 例えば、プロダクトのダークモードを作る場合、明るい色と暗い色を入れ替えるだけでは不十分です。色の濃淡のバリエーションが必要になるかもしれません。
-また、複数のプロダクトを展開する企業では、それぞれのプロダクトの個性を魅せたい思いがあると思うのですが、そのために色を増やしすぎると、使い方がバラバラになったり、ブランドが崩れてしまったり、カラーパレットが使いづらくなったりします。
+また、複数のプロダクトを展開する企業では各プロダクトの個性を魅せたい思いがあるのですが、そのために色を増やしすぎると、使い方がバラバラになったり、ブランドが崩れてしまったり、カラーパレットが使いづらくなったりします。
 
-バランスの取れたカラーパレットを作るには、システムに必要な機能と色を照らし合わせることが重要です。メッセージ、ステータス、優先度、アクションなどの機能に対して、1つの色の値が意味を持つようになります。
+バランスの取れたカラーパレットを作るには、プロダクトに必要な機能と色を照らし合わせることが重要です。メッセージ、ステータス、優先度、アクションなどの機能に対して、1つの色の値が意味を持つようになります。
 
 ![](https://storage.googleapis.com/zenn-user-upload/952a342b3ae0-20230604.png)
 
 ---
 筆者の個人的な意見になりますが、
 
-Lyft氏 がアクセシブルな UI のためのカラーシステム、カラーパレットをどのように構築しているか、どのように独自のシステムを構築できるかについて解説されてあるので、カラーについて深ぼって知りたい方は参考にしてみてください。
+Lyft 氏 がアクセシブルな UI のためのカラーシステム、カラーパレットをどのように構築しているかを解説されてあるので、カラーについて深ぼって知りたい方は参考にしてみてください。
 
 https://design.lyft.com/re-approaching-color-9e604ba22c88
 
-Curtis氏 は、デザインシステムでカラーを扱う中で学んだ 16の Tips を紹介しているのです。具体例を挙げるとプライマリーパレットの安定化、セカンダリーパレットについて、色合いと濃淡の選択、利用しやすいコントラストの解決について書かれており、ビジュアルについて深ぼって知りたい方は参考にしてみてください。
+Curtis 氏 は、デザインシステムでカラーを扱う中で学んだ 16の Tips を紹介しているのです。具体例を挙げるとプライマリーパレットの安定化、セカンダリーパレットについて、色合いと濃淡の選択、利用しやすいコントラストの解決について書かれており、ビジュアルについて深ぼって知りたい方は参考にしてみてください。
 
 https://medium.com/eightshapes-llc/color-in-design-systems-a1c80f65fa3
 
 ## カラーとアクセシビリティ
-カラーには、アクセシビリティに関する考慮事項があります。[カラーのコントラスト](https://www.w3.org/WAI/WCAG21/quickref/#audio-control)は、要素をはっきりと見る視力に影響します。
-コントラストとアクセシビリティを測定するための[ツール](https://www.figma.com/community/search?resource_type=plugins&sort_by=relevancy&query=color+contrast&editor_type=all&price=all&creators=all)はたくさんあります。Figmaでは、デザインが [Web Content Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)に適合しているかどうかを確認するためのプラグインを見つけることができます。
+カラーには、アクセシビリティに関する考慮事項があります。[カラーのコントラスト](https://www.w3.org/WAI/WCAG21/quickref/#audio-control) は、要素をはっきりと見る視力に影響します。
+コントラストとアクセシビリティを測定するための[ツール](https://www.figma.com/community/search?resource_type=plugins&sort_by=relevancy&query=color+contrast&editor_type=all&price=all&creators=all) はたくさんあります。Figmaでは、デザインが [Web Content Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)に適合しているかどうかを確認するためのプラグインを見つけることができます。
 
 アクセシビリティ・レベルには、A、AA（ダブルA）、AAA（トリプルA）の3つがあります。Aの数が多いほど、高い水準となります。このガイドラインは最低限なので、AA以上を目指しましょう。アクセシビリティに重要なのは、コントラストだけではありません。誰もが同じ程度に色を見たり区別したりできるわけではありません。色だけで状態を伝えたり、要素に意味を持たせたりすることはできないのです。
 
-[色だけでなく、シンボルやアイコン、ヘルパーテキスト](https://www.w3.org/WAI/WCAG21/quickref/#non-text-content)を追加して、要素をよりよく区別できるようにすることを検討してください。色に関する詳しいガイダンスについては、[Schema 2021の Asana の Design Systems Teamのトークにある Design tokens](https://www.youtube.com/watch?v=ylDed18OVdY) をご覧ください。
+[色だけでなく、シンボルやアイコン、ヘルパーテキスト](https://www.w3.org/WAI/WCAG21/quickref/#non-text-content) を追加して、要素をよりよく区別できるようにすることを検討してください。色に関する詳しいガイダンスについては、[Schema 2021の Asana の Design Systems Teamのトークにある Design tokens](https://www.youtube.com/watch?v=ylDed18OVdY) をご覧ください。
 
 ![](https://storage.googleapis.com/zenn-user-upload/4b8f1a6b6367-20230604.png)
 
