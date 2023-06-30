@@ -1,6 +1,7 @@
 ---
 title: "4章 : デザインシステムを育もう - ドキュメントとシステムを保守する"
 ---
+原文 : [Lesson 4: Document and manage your system](https://help.figma.com/hc/en-us/articles/14552804059927-Lesson-4-Document-and-manage-your-system)
 
 https://youtu.be/_sTWtnNU1L0
 

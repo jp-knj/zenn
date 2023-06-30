@@ -1,6 +1,8 @@
 ---
 title: "3章 : デザインシステムを構築する"
 ---
+原文 : [Lesson 3: Build your design system](https://help.figma.com/hc/en-us/articles/14548865734679-Lesson-3-Build-your-design-system)
+
 Kai と Habitz チームと一緒に、デザインシステムを構築していきます。
 
 Figma のデザインシステムの中核となる機能のスタイルとコンポーネントに焦点を当てます。またデザインシステムを定義し、整理するための Tips も紹介します。
