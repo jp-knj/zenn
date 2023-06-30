@@ -1,7 +1,8 @@
 ---
 title: "2章 : デザインシステムを定義しよう - Principles について"
 ---
-## はじめに
+原文 : [Lesson 2: Define your design system](https://help.figma.com/hc/en-us/articles/14552740206743)
+
 この章では、デザインシステムの4つの重要な部分について掘り下げます。
 
 - Principles 
@@ -59,6 +60,3 @@ Principlesは、すべての人を共通の目標に向かわせ、対立が生�
 - [Figma Design Principles (Community file)](https://www.figma.com/community/file/817913152610525667/Figma-Design-Principles)
 - [Headspace design principles (Community file)](https://www.figma.com/community/file/1228255385714793597/Principles-of-Headspace)
 :::
-
-#### 参考リンク
-[Define your design system](https://help.figma.com/hc/en-us/articles/14552740206743)
