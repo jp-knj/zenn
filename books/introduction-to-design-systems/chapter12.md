@@ -58,7 +58,7 @@ Documentation （以後ドキュメントと書きます)、はデザインシ�
 具体例として、以下のようなものがあります。
 - Title Case
 - Sentence case
-- uderscore_case
+- underscore_case
 - camelCase
 
 ![](https://storage.googleapis.com/zenn-user-upload/375da91ac5c1-20230604.png)
