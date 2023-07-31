@@ -12,5 +12,10 @@
   "dependencies": {
     "browser-sync": "^2.26.14",
     "zenn-cli": "^0.1.144"
+  },
+  "devDependencies": {
+    "textlint": "^13.3.3",
+    "textlint-rule-preset-ja-spacing": "^2.3.0",
+    "textlint-rule-preset-ja-technical-writing": "^8.0.0"
   }
 }
