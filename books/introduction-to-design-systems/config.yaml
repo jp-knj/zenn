@@ -1,5 +1,13 @@
 title: "Figma によるデザインシステム入門"
-summary: "本書は Figma によるデザインシステムコースの日本語訳になります。デザインシステムに興味がある人や構築しようとしている人もチェックしてみてください。デザインシステムに縁のないデザイナーや開発者のためにプロダクトと向き合った最適なデザインシステムを探求するための材料になれば嬉しく思います。"
+summary: "本書は Figma によるデザインシステムコースの日本語訳になります。デザインシステムに興味がある人や構築しようとしている人もチェックしてみてください。デザインシステムに縁のないデザイナーや開発者のためにプロダクトと向き合った最適なデザインシステムを探求するための材料になれば嬉しく思います。
+(原文 : https://help.figma.com/hc/en-us/sections/14548397990423-Course-Introduction-to-design-systems)
+
+この記事は、Figmaから許可を得た上で翻訳され、Brand Guidelineに則った内容となっております。(Brand Guideline: https://www.figma.com/ja/using-the-figma-brand/)
+## 更新情報
+[2023/7/1] 
+- 表紙画像に、このコンテンツが「Course: Introduction to design systems」の翻訳であることを明確に示す文言を追加
+- 各章の冒頭に原文へのリンクを追加"
+
 topics: ["figma", "frontend", "デザインシステム", "uiuxdesign"]
 published: true
 price: 0
