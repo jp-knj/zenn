@@ -635,6 +635,10 @@ https://medium.com/design-bootcamp/what-is-the-difference-between-user-journey-a
 ## ビジュアルデザイン
 色はデザインドキュメンテーションを考える際の主要な要素です。最も基本的な要素として、デザイナーはカラーとカラーパレットを最初に文書化することができます。
 
+https://www.designsystems.com/color-guides/
+https://design.lyft.com/re-approaching-color-9e604ba22c88
+https://medium.com/eightshapes-llc/color-in-design-systems-a1c80f65fa3
+
 ### カラードキュメンテーションの基本
 - パレットの各色を白い背景と合わせて確認。
 - 各色がテキストや大きなテキストの AA または AAA コントラスト比基準を満たしているか記録。
