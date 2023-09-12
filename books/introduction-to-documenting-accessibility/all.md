@@ -615,6 +615,8 @@ https://medium.com/design-bootcamp/what-is-the-difference-between-user-journey-a
   - ユーザーフロー
 - 代替コンテンツとマークアップ
 
+https://bbc.github.io/accessibility-news-and-you/guides/screen-reader-ux.html
+
 ## ビジュアルデザイン
 色はデザインドキュメンテーションを考える際の主要な要素です。最も基本的な要素として、デザイナーはカラーとカラーパレットを最初に文書化できます。
 
