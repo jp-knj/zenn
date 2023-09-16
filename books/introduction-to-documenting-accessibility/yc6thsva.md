@@ -93,3 +93,5 @@ Figma の API を利用してデザインをテックスタックに統合。
 
 ### 総括
 1 つの解決策がすべてに適しているわけではありません。選択は、チームの独自のニーズとデザインシステムが広く採用されることを助けるものとして合致するべきです。
+
+https://www.kotobaux.com/blog/6-steps-to-creating-a-ux-writing-style-guide
