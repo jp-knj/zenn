@@ -4,8 +4,7 @@ topics: ["figma", "frontend", "デザインシステム", "ui", "accessibility"]
 published: false
 price: 0
 chapters:
-  - all
-  - 7d48g8qz # ユーザーを理解する: アクセシビリティの本質
+  - 7d48g8qz # 障がいを理解する：アクセシビリティの深層とドキュメント化
   - yc6thsva # ドキュメント戦略: チームの協力からツール選定まで
   - 8sarla33 # 認知を助ける: コンテンツ戦略
   - 728d4q1k # 動作から助ける: ユーザーインタラクションのドキュメント
