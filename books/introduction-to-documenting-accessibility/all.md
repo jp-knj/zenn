@@ -1358,3 +1358,8 @@ UX は、ユーザビリティのヒューリスティック（基本的な原�
 ドキュメントにはさまざまなスタイルや方法がある。自分なりに考え、自分のチームに合うものを試してみよう。しかし、1 つだけ覚えておいてほしいのは、ドキュメントは対話の代わりにはならないということです。
 できることなら、直接会ってドキュメントを提示することが重要です。私たちのチームでは、毎週ミーティングを行っています。開発者はデモを見せます。私はそのようなドキュメントや仕様を見せ、議論します。
 そして、何ができて、何ができないか、何が悪いかを共通認識として保ちましょう。それらをどのように実装するかなどについて、チームでディスカッションします。
+
+https://medium.com/design-bootcamp/how-to-create-a-good-user-flow-bbcbf0d2d54d
+https://medium.com/design-bootcamp/what-is-the-difference-between-user-journey-and-user-flow-ee41f31bd284
+https://bbc.github.io/accessibility-news-and-you/guides/screen-reader-ux.html
+https://www.w3.org/TR/coga-usable/#dfn-cognitive-and-learning-disabilities

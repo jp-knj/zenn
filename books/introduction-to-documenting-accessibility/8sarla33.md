@@ -32,7 +32,6 @@ title: "認知を理解する：情報を伝えるための戦略"
 - **基準を明確にする** : ガイドラインを使用してパターン化を進め、良い UI デザインとは、悪い UI とはを考慮するためのプラクティスを探りましょう。
 - **ストーリーを語る** : UI をデザインするのはストーリーを語るようなものです。始まり、中間、そして終わりを明確にしましょう。一貫したストーリーの構造を維持して、ユーザーを誘導するように努めましょう。
 
----
 ### 認知負荷を軽減するためのデザイン指針
 **簡潔で一貫した言語と視覚的表現**は、ユーザーとのコミュニケーションの起点となります。言葉や視覚的要素が一貫していると、ユーザーはそのプロダクトやサービスを信頼しやすくなります。
 
@@ -106,10 +105,3 @@ https://www.checklist.design/
 この「空の状態」は、ユーザーが新しい機能を理解する際の助けとなるガイドやヒントを提供する絶好の機会となります。例えば、新しいメッセージングアプリを開いたときに、「友だちを追加してチャットを開始しよう」というメッセージが表示されることは、ユーザーに次のステップを示唆する役立つヒントとなります。
 
 イラストや画像が使われることもありますが、それが重要な要素ではありません。ユーザーにとって最も重要なのは、そのページが何を意味し、何をすべきかを明確に理解できることです。
-
-https://medium.com/design-bootcamp/how-to-create-a-good-user-flow-bbcbf0d2d54d
-https://medium.com/design-bootcamp/what-is-the-difference-between-user-journey-and-user-flow-ee41f31bd284
-
-
-https://bbc.github.io/accessibility-news-and-you/guides/screen-reader-ux.html
-https://www.w3.org/TR/coga-usable/#dfn-cognitive-and-learning-disabilities
