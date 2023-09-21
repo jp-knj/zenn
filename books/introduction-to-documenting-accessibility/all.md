@@ -1363,3 +1363,11 @@ https://medium.com/design-bootcamp/how-to-create-a-good-user-flow-bbcbf0d2d54d
 https://medium.com/design-bootcamp/what-is-the-difference-between-user-journey-and-user-flow-ee41f31bd284
 https://bbc.github.io/accessibility-news-and-you/guides/screen-reader-ux.html
 https://www.w3.org/TR/coga-usable/#dfn-cognitive-and-learning-disabilities
+https://www.designsystems.com/5-steps-for-including-motion-design-in-your-system/
+https://2023.stateofcss.com/ja-JP/features/accessibility/
+https://www.smashingmagazine.com/2023/08/css-accessibility-inclusion-user-choice/
+https://trace.umd.edu/peat/
+https://www.design.foyer.lu/animations.html#principles
+https://learn.microsoft.com/en-us/windows/apps/design/motion/timing-and-easing
+https://web.dev/i18n/ja/new-responsive/#prefers-reduced-motion
+https://www.a11yproject.com/posts/design-accessible-animation/
