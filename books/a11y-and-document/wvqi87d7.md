@@ -59,4 +59,4 @@ Web アクセシビリティを実現するためには、Web 技術、ブラウ
 [^2]: アメリカ合衆国の疾病予防・管理を担当する国の機関。公衆衛生の専門家として、さまざまな感染症や非感染性疾患、そしてその他の健康問題に対する監視、予防、対策を行っています。[Disability Impacts All of Us](https://www.cdc.gov/ncbddd/disabilityandhealth/infographic-disability-impacts-all.html) にある文献を参考にしています。
 [^3]: グローバルなマーケットリサーチおよび顧客向けアドバイザリー会社。CX が [デジタル・アクセシビリティ](https://www.forrester.com/resources/customer-experience-design/digital-accessibility-basics/) をリードすべき理由を参考にしています。
 [^4]: WebAIM は、デジタルアクセシビリティのリーダーとして知られる組織で、Web のアクセシビリティを向上させるための情報、ツール、トレーニングを提供。[上位 100 万サイトの中で、アクセシビリティ基準を満たしているサイトはわずか 3 ％しかありません](https://webaim.org/projects/million/#wcag) 。
-[^5]: ウェブコンテンツのアクセシビリティに関する日本産業規格 (JIS) の一つです。[JIS X 8341-3:2016 解説](https://waic.jp/docs/jis2016/understanding/201604/) を参考にしています。
+[^5]: ウェブコンテンツのアクセシビリティに関する日本産業規格 (JIS) の 1 つです。[JIS X 8341-3:2016 解説](https://waic.jp/docs/jis2016/understanding/201604/) を参考にしています。
