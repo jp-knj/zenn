@@ -138,13 +138,105 @@ Web ページが WCAG 2.0 に適合するためには、以下のすべての要
 評価結果を社外に発表するときがあるかもしれません。
 
 以下の情報を含めることが推奨されています。
-- 声明の発行日
+- 発行日
 - 使用したガイドラインの情報（タイトル、バージョン、URI)
 - 目指したアクセシビリティの適合レベル（A、AA、AAA）
 - 評価対象の Web サイトの詳細 
 - 使用した Web 技術の情報
 
 この記事は、Web アクセシビリティ評価のステップを簡潔にまとめたものです。エンジニア、デザイナー、PdM の皆様に、Web アクセシビリティの評価を行う際の参考として役立つことを願っています。
+
+## アクセシビリティのテストに役立つツール
+### デザイン
+
+- **WebAim コントラストチェッカー** : テキストとグラフィックスの色のコントラストをチェック
+
+https://webaim.org/resources/contrastchecker/
+
+- **Color Oracle** : 色覚異常シミュレータ
+
+https://colororacle.org/
+
+- **Stark** : Figmaのアクセシビリティプラグイン
+
+https://www.figma.com/community/plugin/732603254453395948/stark-accessibility-tools
+
+- **The A11y Project** : デザインと UX に関してのリスト
+  
+https://www.a11yproject.com/resources/#design-and-user-experience
+
+- **Accessible Prototypes Playground** : スクリーンリーダーに特化したアクセシブルなFigmaプロトタイプ
+
+https://www.figma.com/community/file/1167124335986833540/accessible-prototypes-playground
+
+## コーディング 
+
+- **Eslint-plugin-jsx-a11y lintingプラグイン**: Reactアプリでのアクセシビリティ問題を見つける
+
+https://www.npmjs.com/package/eslint-plugin-jsx-a11y
+
+- **Cypress axe**: axe-coreでのアクセシビリティチェックを実行するCypressコマンド
+
+https://github.com/component-driven/cypress-axe
+
+- *@axe-core/playwright**
+https://playwright.dev/docs/accessibility-testing
+
+- **WebAimのキーボードアクセシビリティガイド**: すべての対話型要素がキーボードアクセス可能であり、フォーカスフィードバックが表示されていることをチェック
+
+https://webaim.org/techniques/keyboard/
+
+- **ChromeLens devツール拡張**: 'trace tab path'機能を使用してタブ順序が論理的であることを確認するか、ChromeまたはFirefoxで'show tabbing order'機能を使用する
+
+https://chromelens.github.io/chromelens/
+
+- **Tiny Helpers**: Web開発者のための無料の単一目的オンラインツールのコレクション
+
+https://tiny-helpers.dev/accessibility/
+
+## スクリーンリーダーでテストする
+
+### VoiceOver (Mac)
+- **A11ycasts Voiceover**
+
+https://www.youtube.com/watch?v=5R-6WvAihms
+
+- **WebAimのVoiceoverガイドを読む**
+
+https://webaim.org/articles/voiceover/
+
+### NVDA (Windows)
+- **A11ycasts Voiceover**
+
+https://www.youtube.com/watch?v=Jao3s_CwdRU
+
+- **WebAimのNVDAガイドを読む**
+
+https://webaim.org/articles/nvda/
+
+## あなたのライティングをテストする
+
+- **Readable**: 内容が意図された読者によって理解される可能性を測定するための可読性スコアを取得
+
+## チェックリスト
+
+ガイダンスのためのチェックリストを使用してください。チェックリストはすべてのシナリオを網羅しているわけではありませんし、テストを置き換えるものではありません。
+
+- **A11y Project および WebAIM**: 平易な英語での包括的なチェックリスト。
+
+https://www.a11yproject.com/checklist/
+
+- **WebAIM**: 平易な英語での包括的なチェックリスト。
+
+https://webaim.org/standards/wcag/checklist
+
+- **WebAim webアクセシビリティ評価ガイド**: コンテンツタイプごとのアクセシビリティチェック。
+
+https://webaim.org/articles/evaluationguide/
+
+- **アクセシビリティチェックリスト**: 主要な考慮事項のFigmaチェックリスト。
+
+https://www.figma.com/proto/V7YQVtYIHS5gWKalbTvubq/%F0%9F%9F%A2-Handoff-Documentation?page-id=163%3A66379&node-id=163%3A66926&viewport=496%2C49%2C0.15&scaling=scale-down-width&hide-ui=1
 
 [^1]:[Website Accessibility Conformance Evaluation Methodology](https://www.w3.org/TR/WCAG-EM/)
 [^2]:アクセシビリティサポート (Accessibility Support) は、Web 技術がアクセシビリティ関連のユーザーエージェント（例：スクリーンリーダーや音声認識ソフトウェアなど）や AS（例：点字ディスプレイや音声出力システムなど）によって適切にサポートされ、動作することを指します。
