@@ -146,9 +146,8 @@ Web ページが WCAG 2.0 に適合するためには、以下のすべての要
 
 この記事は、Web アクセシビリティ評価のステップを簡潔にまとめたものです。エンジニア、デザイナー、PdM の皆様に、Web アクセシビリティの評価を行う際の参考として役立つことを願っています。
 
-## アクセシビリティのテストに役立つツール
-### デザイン
-
+:::details アクセシビリティのテストに役立つツール
+#### デザイン
 - **WebAim コントラストチェッカー** : テキストとグラフィックスの色のコントラストをチェック
 
 https://webaim.org/resources/contrastchecker/
@@ -157,7 +156,7 @@ https://webaim.org/resources/contrastchecker/
 
 https://colororacle.org/
 
-- **Stark** : Figmaのアクセシビリティプラグイン
+- **Stark** : Figma のアクセシビリティプラグイン
 
 https://www.figma.com/community/plugin/732603254453395948/stark-accessibility-tools
 
@@ -165,38 +164,37 @@ https://www.figma.com/community/plugin/732603254453395948/stark-accessibility-to
   
 https://www.a11yproject.com/resources/#design-and-user-experience
 
-- **Accessible Prototypes Playground** : スクリーンリーダーに特化したアクセシブルなFigmaプロトタイプ
+- **Accessible Prototypes Playground** : スクリーンリーダーに特化したアクセシブルな Figma プロトタイプ
 
 https://www.figma.com/community/file/1167124335986833540/accessible-prototypes-playground
 
-## コーディング 
+#### コーディング 
 
-- **Eslint-plugin-jsx-a11y lintingプラグイン**: Reactアプリでのアクセシビリティ問題を見つける
+- **Eslint-plugin-jsx-a11y lintingプラグイン**: React アプリでのアクセシビリティ問題を見つける
 
 https://www.npmjs.com/package/eslint-plugin-jsx-a11y
 
-- **Cypress axe**: axe-coreでのアクセシビリティチェックを実行するCypressコマンド
+- **Cypress axe**: axe-core でのアクセシビリティチェックを実行する Cypress コマンド
 
 https://github.com/component-driven/cypress-axe
 
-- *@axe-core/playwright**
+- **@axe-core/playwright**
 https://playwright.dev/docs/accessibility-testing
 
 - **WebAimのキーボードアクセシビリティガイド**: すべての対話型要素がキーボードアクセス可能であり、フォーカスフィードバックが表示されていることをチェック
 
 https://webaim.org/techniques/keyboard/
 
-- **ChromeLens devツール拡張**: 'trace tab path'機能を使用してタブ順序が論理的であることを確認するか、ChromeまたはFirefoxで'show tabbing order'機能を使用する
+- **ChromeLens devツール拡張**: 'trace tab path'機能を使用してタブ順序が論理的であることを確認するか、Chrome または Firefox で'show tabbing order'機能を使用する
 
 https://chromelens.github.io/chromelens/
 
-- **Tiny Helpers**: Web開発者のための無料の単一目的オンラインツールのコレクション
+- **Tiny Helpers**: Web 開発者のための無料の単一目的オンラインツールのコレクション
 
 https://tiny-helpers.dev/accessibility/
 
-## スクリーンリーダーでテストする
+#### スクリーンリーダー
 
-### VoiceOver (Mac)
 - **A11ycasts Voiceover**
 
 https://www.youtube.com/watch?v=5R-6WvAihms
@@ -205,8 +203,7 @@ https://www.youtube.com/watch?v=5R-6WvAihms
 
 https://webaim.org/articles/voiceover/
 
-### NVDA (Windows)
-- **A11ycasts Voiceover**
+- **A11ycasts NVDA**
 
 https://www.youtube.com/watch?v=Jao3s_CwdRU
 
@@ -214,13 +211,8 @@ https://www.youtube.com/watch?v=Jao3s_CwdRU
 
 https://webaim.org/articles/nvda/
 
-## あなたのライティングをテストする
-
-- **Readable**: 内容が意図された読者によって理解される可能性を測定するための可読性スコアを取得
-
-## チェックリスト
-
-ガイダンスのためのチェックリストを使用してください。チェックリストはすべてのシナリオを網羅しているわけではありませんし、テストを置き換えるものではありません。
+#### チェックリスト
+ガイダンスのためのチェックリストを使用してください。チェックリストはすべてのシナリオを網羅しているわけではありませんし、テストに置き換わるものでもありません。
 
 - **A11y Project および WebAIM**: 平易な英語での包括的なチェックリスト。
 
@@ -234,7 +226,7 @@ https://webaim.org/standards/wcag/checklist
 
 https://webaim.org/articles/evaluationguide/
 
-- **アクセシビリティチェックリスト**: 主要な考慮事項のFigmaチェックリスト。
+- **アクセシビリティチェックリスト**: 主要な考慮事項の Figma チェックリスト。
 
 https://www.figma.com/proto/V7YQVtYIHS5gWKalbTvubq/%F0%9F%9F%A2-Handoff-Documentation?page-id=163%3A66379&node-id=163%3A66926&viewport=496%2C49%2C0.15&scaling=scale-down-width&hide-ui=1
 
