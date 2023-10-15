@@ -233,5 +233,5 @@ https://webaim.org/articles/evaluationguide/
 https://www.figma.com/proto/V7YQVtYIHS5gWKalbTvubq/%F0%9F%9F%A2-Handoff-Documentation?page-id=163%3A66379&node-id=163%3A66926&viewport=496%2C49%2C0.15&scaling=scale-down-width&hide-ui=1
 
 [^1]:[Website Accessibility Conformance Evaluation Methodology](https://www.w3.org/TR/WCAG-EM/)
-[^2]:アクセシビリティサポートは、Web 技術がアクセシビリティツール（例： スクリーンリーダーや音声認識ソフト）や AS（例： 点字ディスプレイや音声出力）によって適切にサポートされ、動作することを示します。
+[^2]:アクセシビリティサポートは、Web 技術がアクセシビリティツール（例： スクリーンリーダーや音声認識ソフト）や AS（例： 点字ディスプレイや音声出力）によって適切に動作することを示します。
 [^3]:障がいを持つ人々が情報やサービスにアクセスするのを助けるための技術やツールを指します。これには、スクリーンリーダーや拡大ソフトウェア、音声認識ソフトウェア、特別なキーボードやマウスなどが含まれます。web.dev にある [Assistive Technology](https://web.dev/learn/accessibility/test-assistive-technology) についての記事を参考にしてください。 
