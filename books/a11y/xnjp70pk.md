@@ -1,15 +1,14 @@
 ---
 title: "アクセシビリティを評価する手法: WCAG-EM"
 ---
-
 前回のセクションで WCAG について、知ることができました。今回では、WCAG を活用してアクセシビリティ向上に取り組むときに、Web アクセシビリティの評価手順について解説していきます。
 この記事は、Web アクセシビリティ評価のステップを簡潔にまとめたものです。エンジニア、デザイナー、PdM の皆様に、Web アクセシビリティの評価や改善をするときの、参考として役立つことを願っています。
 
 ## WCAG-EMの存在とその目的
-Web アクセシビリティ評価と向上を目指すガイドラインとして、WCAG-EM（Website Accessibility Conformance Evaluation Methodology）[^1] が存在します。この記事では、これらのガイドラインと方法論について詳しく解説します。
+WCAG-EM（Website Accessibility Conformance Evaluation Methodology）は、Web アクセシビリティの評価と向上を目的としたガイドラインです[^1]。この記事で、そのガイドラインと方法論を詳しく解説します。
 
-※ [Website Accessibility Conformance Evaluation Methodology](https://www.w3.org/TR/WCAG-EM/) を参考にしており、以下の内容は筆者の意訳になります。正確な情報を知りたい方は、前述のリンクを参照してください。
-※ 前述のようなドキュメントに抵抗がある方は、WAIC(情報通信アクセス協議会ウェブアクセシビリティ基盤委員会）が公開している [JIS X 8341-3:2016 試験実施ガイドライン](https://waic.jp/docs/jis2016/test-guidelines/202012/) を参照することを推奨します。
+※ [Website Accessibility Conformance Evaluation Methodology](https://www.w3.org/TR/WCAG-EM/) を参考にしており、以下の内容は筆者の意訳になります。正確な情報を知りたい方は、前述のリンクを参考にしてください。
+※ ドキュメントに抵抗がある方は、WAIC（情報通信アクセス協議会ウェブアクセシビリティ基盤委員会）の [JIS X 8341-3:2016 試験実施ガイドライン](https://waic.jp/docs/jis2016/test-guidelines/202012/) を参考にしてください。
 
 ## WCAG-EMの基本
 ### WCAG-EM とは 
@@ -20,7 +19,7 @@ Web アクセシビリティの評価と向上を目指すための基本的な�
 WCAG-EM の評価は、以下の 5 つの主要なステップから成り立っています。
 
 ![](/images/books/a11y/wcag-em.png)
-※ WCAG-EM の評価ステップは、 各ステップを行き来することになります。コンテンツの調査や選定を行った後、スコープの定義に戻ることもあります。
+※ WCAG-EM の評価ステップは、 各ステップを行き来することになります。コンテンツの調査や選定をした後、スコープの定義に戻ることもあります。
 
 1. **スコープの定義**：評価の対象となる Web コンテンツ、評価の目標、および WCAG の適合レベルである A、AA や AAA を決定します
 2. **コンテンツの調査**：Web サイト内の主要なページや頻繁に使用されるページ、さまざまなコンテンツの種類を特定します
@@ -87,7 +86,7 @@ WCAG 2.0 の適合レベルである A、AA や AAA を評価の目標として�
 - アクセシビリティの課題： ユーザーの写真に対する代替テキストの提供、リンクやボタンの明確な識別、投稿の文字サイズや背景色の調整など
 
 ### Web サイトが依存している技術の特定
-HTML, CSS, JavaScript(Client-side Scripting, Server-side Scripting) などの基本的な技術や、WAI-ARIA や SVG などの特定の技術が評価の対象となります。
+HTML, CSS, JavaScript（Client-side Scripting, Server-side Scripting）や WAI-ARIA、SVG などの技術が評価の対象となります。
 
 以上のステップを通じて、Web サイトのアクセシビリティを効果的に評価するための準備を整えることができました。
 
@@ -128,7 +127,7 @@ Web ページが WCAG 2.0 に適合するためには、以下のすべての要
 - 商品の選択 : ここでユーザーは商品を閲覧し、希望の商品をカートに追加します。このページは、商品の画像、価格、説明などの情報を明確に表示する必要があります
 - カートへ追加 : ユーザーはここで選択した商品の一覧を確認し、数量や色などのオプションを変更できます。また、不要な商品をカートから削除できます
 - 支払い情報の入力 : このページでは、ユーザーは支払い方法を選択し、必要な情報（クレジットカード情報、住所など）を入力します
-- 購入の確認 : ユーザーは注文の詳細を確認し、購入を確定します。
+- 購入の確認 : ユーザーは注文の詳細を確認し、購入を確定します
 
 これらの各コンテンツは、アクセシビリティの基準に従って設計され、実装されている必要があります。アクセシビリティ基準を満たしていないと、ユーザーはタスクを完了できない可能性があります。そのため、このシナリオに必要なコンテンツは定義された適合レベルを満たしている必要があります。
 
@@ -142,16 +141,14 @@ Web ページが WCAG 2.0 に適合するためには、以下のすべての要
 - 適合性を評価する方法や手順
 
 ### 評価結果を社外に報告
-評価結果を社外に発表するときがあるかもしれません。
-
-以下の情報を含めることが推奨されています。
+評価結果を社外に発表するときは、以下の情報を含めることが推奨されています。
 - 発行日
-- 使用したガイドラインの情報（タイトル、バージョン、URI)
+- 使用したガイドラインの情報（タイトル、バージョン、URI）
 - 目指したアクセシビリティの適合レベル（A、AA、AAA）
 - 評価対象の Web サイトの詳細 
 - 使用した Web 技術の情報
 
-:::details アクセシビリティのテストに役立つツール
+:::details アクセシビリティのテストに役立つツール。
 #### デザイン
 - **WebAim コントラストチェッカー** : テキストとグラフィックスの色のコントラストをチェック
 
@@ -190,7 +187,7 @@ https://playwright.dev/docs/accessibility-testing
 
 https://webaim.org/techniques/keyboard/
 
-- **ChromeLens devツール拡張**: 'trace tab path'機能を使用してタブ順序が論理的であることを確認するか、Chrome または Firefox で'show tabbing order'機能を使用する
+- **ChromeLens devツール拡張**: 'trace tab path'を使いタブ順序の論理性をチェックします。また、Chrome や Firefox では'show tabbing order'を活用します。
 
 https://chromelens.github.io/chromelens/
 
@@ -236,5 +233,5 @@ https://webaim.org/articles/evaluationguide/
 https://www.figma.com/proto/V7YQVtYIHS5gWKalbTvubq/%F0%9F%9F%A2-Handoff-Documentation?page-id=163%3A66379&node-id=163%3A66926&viewport=496%2C49%2C0.15&scaling=scale-down-width&hide-ui=1
 
 [^1]:[Website Accessibility Conformance Evaluation Methodology](https://www.w3.org/TR/WCAG-EM/)
-[^2]:アクセシビリティサポート (Accessibility Support) は、Web 技術がアクセシビリティ関連のユーザーエージェント（例：スクリーンリーダーや音声認識ソフトウェアなど）や AS（例：点字ディスプレイや音声出力システムなど）によって適切にサポートされ、動作することを指します。
+[^2]:アクセシビリティサポートは、Web 技術がアクセシビリティツール（例： スクリーンリーダーや音声認識ソフト）や AS（例： 点字ディスプレイや音声出力）によって適切にサポートされ、動作することを示します。
 [^3]:障がいを持つ人々が情報やサービスにアクセスするのを助けるための技術やツールを指します。これには、スクリーンリーダーや拡大ソフトウェア、音声認識ソフトウェア、特別なキーボードやマウスなどが含まれます。web.dev にある [Assistive Technology](https://web.dev/learn/accessibility/test-assistive-technology) についての記事を参考にしてください。 
