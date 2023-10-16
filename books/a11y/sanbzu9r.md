@@ -125,7 +125,7 @@ ARIA は、Web コンテンツのアクセシビリティを向上させるた�
 ### コンポーネントの状態
 インタラクティブなコンポーネントのとき、さまざまな状態を持つことがあります。例えば、ボタンは「default」「hover」「focus」「disabled」などの状態を持つことができます。
 これらの状態を明確に定義し、それぞれの状態での見た目や動作を設計することが重要です。フォーカスされている要素をハイライトする明確なフォーカスインジケーターは、考慮が漏れることが多いです。
-フォーカスインジケータのアクセシビリティについて詳しく知りたい方は、Sara Soueidan の [Guide to Designing accessible, WCAG-compliant focus indicators](https://www.sarasoueidan.com/blog/focus-indicators/)をご覧ください。
+フォーカスインジケータのアクセシビリティに関心がある方は、Sara Soueidan の[Guide to Designing accessible, WCAG-compliant focus indicators](https://www.sarasoueidan.com/blog/focus-indicators/)を参照してください。
 
 #### パンくずの状態
 - default 
@@ -144,7 +144,7 @@ ARIA は、Web コンテンツのアクセシビリティを向上させるた�
 #### パンくずリストの動作
 コンポーネントの動作を仕様化します。
 
-::: details 動作確認項目の具体例
+::: details 動作確認項目の具体例。
 
 | 基本的なパンくずリストの動作確認                                                                       |
 |:---------------------------------------------------------------------------------------|
