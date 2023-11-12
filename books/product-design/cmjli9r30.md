@@ -30,11 +30,7 @@ title: "影響を拡大する"
 ## 影響を拡大する戦略
 ### 時間の最適化
 より多くの時間を投資するかについてなのですが、私たちができることは限られています。 成功した場合でも、時間による改善はごくわずかです。
-しかし、その限られた時間の中で、どのように価値を生み出すかが鍵となります。タスクの効率と優先順位を適切に管理することで、時間を有効に使い、より大きな影響を与えることが可能となります。
-
-### Return on Investment
-より影響の大きな活動に集中することで、時間の ROI は飛躍的に向上します。
-投資収益率（ROI: Return on Investment）は、投じたリソースに対して得られるリターンを指します。同じ時間やリソースを使用しながらも、大きな成果を得られる活動を意味します。これらの活動に焦点を当て、努力を進めることで、時間の ROI は飛躍的に向上し、個人および組織の影響力を大きく拡大することが可能となります。
+しかし、その限られた時間の中で、どのように価値を生み出すかが鍵となります。タスクの効率と優先順位を適切に管理することで、時間を有効に使い、より大きな影響を与えましょう。
 
 ## 大きくするアプローチ 
 高影響の具体的な例をリストアップし、それを基に最適なアプローチや方法を探る手助けをするつもりです。さらに、フロントエンドエンジニアやデザイナーが日常的に直面するタスクにおいて、効果や成果を最大化するためのアプローチについても考察します。
@@ -71,8 +67,8 @@ title: "影響を拡大する"
 影響の大きさをより明確に理解し、プロジェクトやタスクの優先順位を効果的に設定できます。
 エンジニアやデザイナー、そして他の関係者が共通の言語でコミュニケーションをとることができ、組織全体での効果的な協力を促進できます。
 
-// Kellog の図
-[^3] 
+![](/images/books/product-design/kellog.png)
+[What are Inputs, Outputs, Outcomes, Impact ?: The logic model](https://instact.wordpress.com/2012/02/07/what-are-inputs-outputs-outcomes-impact-the-logic-model/) にある図を参考にしています。
 
 デザインの作業を進める際、単に "どれを先に行うか"という単純な優先順位付けを超えて、それぞれのタスクが持つ"影響の大きさ"や"影響の範囲"を考慮することが必要です。
 もし、"影響の大きさ"や"影響の範囲"を私ではない誰かが決めているとしたら、私はその人が持っている情報を共有してもらい、判断軸を理解しましょう。
@@ -84,8 +80,8 @@ title: "影響を拡大する"
 たとえば、新しい機能のデザインを手掛ける場合、その機能がプロダクト全体に与える影響や、ユーザーの体験にどのような変化をもたらすのかを理解しましょう。
 そのデザインの決定がチームや組織にどのような影響を及ぼすのか、さらには業界全体のトレンドや変化にどう寄与するのかを考慮することも、プロダクトデザインの価値を高める要素となります。
 
-// direct, indirect の図
-[^4]
+![](/images/books/product-design/matrix-2.png)
+[How to have impact as a designer](https://www.intercom.com/blog/product-designer-impact/) にある図を参考にしています。
 
 ## 3つのタスクでの影響力の構築例
 影響を高めるとは、同じ労力でより大きな影響を生む方法を見つけることです。具体的な例を通じて、影響の概念を理解していきます。
@@ -115,5 +111,3 @@ title: "影響を拡大する"
 
 [^1]: 詳細は　[Dropbox Career Framework](https://dropbox.github.io/dbx-career-framework/what_is_impact.html) を参照してください。 
 [^2]: Contributor: 個人貢献者。マネジメントを行わず、個人で仕事を進める人のことを指す。詳細は indeed の [what is an individual contributor](https://www.indeed.com/career-advice/finding-a-job/what-is-an-individual-contributor) を参照してください。
-[^3]: [What are Inputs, Outputs, Outcomes, Impact ?: The logic model](https://instact.wordpress.com/2012/02/07/what-are-inputs-outputs-outcomes-impact-the-logic-model/) にある図を加工してます。
-[^4]: [How to have impact as a designer](https://www.intercom.com/blog/product-designer-impact/) の How can a designer understand the level of impact of their work? にある図を加工してます。
