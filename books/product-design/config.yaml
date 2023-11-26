@@ -1,9 +1,8 @@
-title: "私がプロダクトデザインをするために"
-summary: ""
-topics: []
+title: "プロダクトデザインの旅路からデザインのメモ"
+summary: "日々の発見や直面する困難について、常にメモを取ってきました。これらを整理して、私の思考と感情の記録を集めたものです。単なる記述です。"
+topics: ["frontend", "プロダクトデザイン", "uiuxdesign"]
 published: false
 price: 0 # 有料の場合200〜5000
-# 本に含めるチャプターを順番に並べましょう
 chapters:
   - a6adomqn
   - bynazjd7s
