@@ -1,0 +1,9 @@
+title: "超 Web Components"
+summary: "Web 標準で実現する Web Components について解説。Web Components の歴史、構成する技術要素についても紹介"
+topics: ["webcomponents", "html", "javascript"]
+published: false
+price: 0
+chapters:
+  - 2hvjejbx # Web Components が使われている現場
+  - not yet  # Web Components の歴史
+  - not yet  # Web Components の構成技術
