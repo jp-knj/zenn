@@ -124,3 +124,20 @@ Web Components はより一般的になる。
 - CSS Custom State
 - CSS Theming
 - Open Styling of Shadow Roots
+
+## パッケージングと配布
+- Lazy Custom Elements Definitions
+- HTML Modules Scripts
+
+## API とツール
+Web Components の根本的なプログラミングパラダイムについてです。
+Web Components v1 は主に命令的なJavaScriptプログラミングモデルでした。
+Declare slot assignment など、いくつかの顕著な例外がありましたが、大部分は完全に命令的な処理でした。
+v1以来、私たちはより多くの宣言的な機能を導入するために努力してきました。
+代表的な例は Declare Shadow DOM です。
+すべてに対して宣言的および命令的なAPIの両方を持つことが望ましいです。
+しかし、ここでの大きな終局は、宣言的に定義された Web Components の形式を持ち、サーバーがブラウザに要素定義を送信できるようにすることです。
+それが 100 ％ noscript コンテキストで機能できるようにすることです。
+それまでの道のりはまだありますが、そこに到達したとき、クライアントおよびサーバー開発は根本的に変わるでしょう。
+
+https://w3c.github.io/webcomponents-cg/2022.html#declarative-custom-elements
