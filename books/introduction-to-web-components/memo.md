@@ -85,4 +85,42 @@ Web Components はより一般的になる。
   - https://developer.mozilla.org/en-US/docs/Web/CSS/@property
   - https://caniuse.com/?search=%40property
 
-- Scoped Elements Registeries
+- Scoped Elements Registry
+
+## 相互運用
+- Custom Elements
+  - Autonomous custom elements
+- Element Internals
+  - https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals
+  - Shadow Root Access
+  - Form Associated Custom Elements
+    - https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/elements
+  - Default Accessibility Role, States, and Properties
+    - https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals#instance_properties_included_from_aria
+- Composed Selection
+  - https://developer.mozilla.org/en-US/docs/Web/API/Selection
+  - Custom Attributes
+
+## レンダリングとパフォーマンス
+- HTML Template
+  - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template
+- Declarative Shadow DOM
+- Children Changed Callback
+- Template Instantiation
+  - DOM
+  - Template Syntax
+  - Reactivity
+
+## スタイリング
+- consumption
+  - constructible style sheets
+  - Adopted StyleSheets
+  - CSS ModuleScripts
+  - Declarative CSS Modules
+
+- presentation
+- Custom Properties
+- CSS shadow parts
+- CSS Custom State
+- CSS Theming
+- Open Styling of Shadow Roots
