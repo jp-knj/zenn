@@ -6,4 +6,13 @@ price: 0
 chapters:
   - 2hvjejbx # Web Components が使われている現場
   - not yet  # Web Components の歴史
-  - not yet  # Web Components の構成技術
+  - not yet  # Web Components の構成要素
+  - not yet  # Shadow DOM
+  - not yet  # Platform
+  - not yet  # rendering and performance
+  - not yet  # styling
+  - not yet  # packaging and distribution
+  - not yet  # API paradigm
+  - not yet  # Web Components で実装
+  - not yet  # lazy import
+  - not yet  # hydrating
