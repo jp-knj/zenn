@@ -43,3 +43,7 @@ v1は2016年末にChromeに実装されていましたが、この仕様を起�
   - 開発者はアプリ内でウェブコンポーネントのAPIをすべて、ブラウザ間で、そしてChrome以外のパフォーマンスに対する懸念なしに使用できるようになりました。
 - Reactの一方向性はPolymerチームに受け入れられたようです。Polymerチームは、双方向バインディングから離れ、一方向バインドの LitElement への移行を発表しました。
 - その後、LitElementは「Lit」と呼ばれる専用フレームワークになり、Polymerの後継として開発され、2019年にv1、2021年にv2がリリースされました。
+
+フレームワークとしての比較
+- https://coderpad.io/blog/development/web-components-101-framework-comparison/ 
+
