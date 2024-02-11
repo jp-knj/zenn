@@ -59,3 +59,30 @@ v1は2016年末にChromeに実装されていましたが、この仕様を起�
 フレームワークとしての比較
 - https://coderpad.io/blog/development/web-components-101-framework-comparison/ 
 
+# Web Components の全体像
+v1 がすべての主要なブラウザでサポートされる。
+Web Components はより一般的になる。
+機能の数は、倍増している。
+- 構成要素とスコープ
+- 相互運用
+- レンダリングとパフォーマンス
+- スタイリング
+- パッケージングと配布
+- API とツール
+
+## Shadow DOM
+- Shadow DOM とは
+- scoped, encapsulated, and isolated, composed
+- Named slots
+- Open and Closed modes
+- Event retargeting
+- manual slot
+- focus delegation
+  - https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
+- Cross root ARIA
+  - https://w3c.github.io/webcomponents-cg/2022.html#cross-root-aria
+- In Shadow CSS Properties
+  - https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+  - https://caniuse.com/?search=%40property
+
+- Scoped Elements Registeries
