@@ -1,7 +1,19 @@
 # 実際に Web Components が使われている現場について
 - YouTube
-
+- Photoshop
+  - https://web.dev/articles/ps-on-the-web 
+- Microsoft Office
+  - https://learn.microsoft.com/en-us/fluent-ui/web-components/
+- OpenAI Bing
+  - https://www.fast.design/ 
+  - https://www.microsoft.com/en-us/research/blog/announcing-the-openai-bing-experience/
+- VS Code
+  - https://github.com/microsoft/vscode-webview-ui-toolkit
+- Salesforce
+  - https://www.salesforce.com/products/platform/what-is-web-components/
+ 
 # Web Components の歴史
+どのようなプロセスで Web Components が生まれたのか、その歴史を振り返る。
 
 ## 2010
 Model View ViewModel Controller(MVVC) というパターンが提案されました。
