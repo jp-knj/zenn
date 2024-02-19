@@ -2,7 +2,11 @@
 title: "Web Components の歴史"
 ---
 ## はじめに
-どのようなプロセスで Web Components が生まれたのか、その歴史を振り返る。
+
+https://kinsta.com/jp/blog/web-components/
+
+どのようなプロセスで Web Components が生まれたのでしょうか。
+
 
 XMLHttpRequest が標準化され、技術的にはもう特別なライブラリがAjaxには必要なくなりました。
 私たちの中には、ライブラリを捨ててプラットフォームを直接使用し始めた人もいました。
@@ -20,6 +24,27 @@ XMLHttpRequest が標準化され、技術的にはもう特別なライブラ�
     - これらの解決策は、時には独占的であり、時にはオープンソースです。
 - 解決策が成熟し、広範な合意に達すると、標準化が行われます。
 - ステップ1に戻る。
+
+Web Componentsの歴史
+
+ベンダー固有の多くの失敗を経ながらも、標準的なWeb Componentsのコンセプトは2011年のFronteers ConferenceでAlex Russell氏によって発表されました。そして、GoogleのPolymerライブラリ（現在の提案に基づくポリフィル）がその2年後に産声を上げています。ChromeとSafariでの実装は2016年になってからのことです。
+
+ブラウザベンダーによる詳細な交渉には時間を要したものの、2018年にはFirefox、2020年（MicrosoftによるChromiumエンジンへの切り替え時）にはEdgeに、Web Componentsが追加されました。
+
+当然のように、Web Componentsを積極的に採用する（またはできる）開発者はほとんどいませんでしたが、ようやく安定したAPI、ブラウザによるサポートといった面が充実してきました。万事OKというわけではありませんが、フレームワークベースのコンポーネントに代わる選択肢として、ますます現実味を帯びてきています。
+
+お気に入りのものをまだ捨てたくないという人でも、Web Componentsはあらゆるフレームワークと互換性があり、APIも今後何年にもわたってサポートされる予定です。
+
+Web Componentsのリポジトリが公開されており、誰でも自由に閲覧することができます。
+
+WebComponents.org
+The Component Gallery
+generic-components
+web-components-examples
+awesome-standalones
+accessible_components
+Kickstand UI
+…とはいえ、自分でコードを書くのは楽しいものです。
 
 これはコンポーネントについても同様に見られます。HTMLの初期の日々には、再利用可能なコンポーネントを作成する方法がありませんでした。応答して、私たち多くの人がクラスやコンポーネントを構築するための独自のライブラリを作成しました。それから最初の世代の共有ライブラリが登場しました：jQuery、MooTools、YUIなど。次に第二世代：AngularJS、Backbone、Knockoutなど。そして第三世代：Angular、React、Vueです。この時点で、共通のパターンがよく確立されていました。
 
