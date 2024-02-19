@@ -2,7 +2,7 @@
 title: "Web Components が使われている現場へ"
 ---
 ## はじめに
-Web Components は何がそんなに素晴らしいのか？と聞かれたら、こう答えます
+Web Components は「何がそんなに素晴らしいのか」と聞かれたら、こう答えます。
 Web Components は Web の UI コンポーネントを標準化し、エコシステムに乗ることで、開発効率を飛躍的に向上する技術だから。
 
 Web Components を支えているコンポーネントのアイデアは新しいものでは、ありません。多くのライブラリやフレームワークで使われています。
@@ -29,12 +29,18 @@ https://www.componentdriven.org
 それが何をするのか、またページとどのように相互作用するのかという観点から説明できる視覚的なエンティティです。
 ページには区切りがあり、それぞれが自身の役割を果たしています。そのため、これらのコンポーネントを作るのは理にかなっています。
 
+https://bootcamp.uxdesign.cc/why-product-development-and-design-needs-cohesion-coupling-87731c84aaa7
+
+https://www.figma.com/best-practices/component-architecture/#nested-components
+
 コンポーネントは次のものを持っています。
 - 独自の JavaScript クラス(最終的には)
 - DOM 構造: これはそのクラスによってのみ管理され、外部のコードはそこにアクセスしません("カプセル化"の原則)。
 - CSS スタイル: コンポーネントに適用されます。
 - API: 他のコンポーネントとやり取りするためのイベントやクラスメソッドなどです。
 繰り返しますが、“コンポーネント” というもの自体は特別なものではありません。
+
+https://flaviocopes.com/react-presentational-vs-container-components/
 
 それらを構築するための多くのフレームワークと開発方法論があり、それぞれ独自のオプション機能を持っています。通常は、“コンポーネント”(CSS スコープと DOM のカプセル化) を提供するのに、特別なCSSクラスと規約が使用されます。
 “Web コンポーネント” はそのためのブラウザ組み込みの機能です。
@@ -47,3 +53,18 @@ https://www.componentdriven.org
 - Salesforce
 
 どのようにして、Web Components がリリースされたのか、その歴史を振り返ります。
+
+- イントロダクション
+  - Web Components は、Web の標準であり、UI の基礎を築くための技術。
+-　Web Components の思想
+  - 設計思想 / コンポーネント設計
+  - Figma / デザインシステム
+  - 具体例
+  - メリット、デメリット
+- Web Components が使われている現場
+  - YouTube
+  - PhotoShop
+  - Bing
+  - VS Code
+  - Microsoft
+  - Salesforce
