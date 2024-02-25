@@ -3,13 +3,12 @@ title: "Web Components が使われている現場へ"
 ---
 ## はじめに
 Web Components は「何がそんなに素晴らしいのか」と聞かれたら、こう答えます。
-Web Components は Web の UI コンポーネントを標準化し、エコシステムに乗ることで、開発効率を飛躍的に向上する技術だから。
 
-Web Components を支えているコンポーネントのアイデアは新しいものでは、ありません。多くのライブラリやフレームワークで使われています。
+「Web の UI コンポーネントを標準化し、エコシステムに乗ることで、開発効率を飛躍的に向上する技術」だから。
 
-HTML, CSS で基礎を構築して、JavaScript で機能を積み上げる実装になっています。
-これは、HTML Web Components の特徴です。
+Web Components を支えているコンポーネントのアイデアは新しいものではないでしょう。多くのライブラリやフレームワークで使われています。
 
+HTML Web Components は HTML、CSS で基礎を構築して、JavaScript で機能を積み上げる実装になっています。これは、大きな特徴です。
 - Progressive Enhancement である
 - コンポーネント指向である
 
@@ -30,7 +29,7 @@ HTML, CSS で基礎を構築して、JavaScript で機能を積み上げる実�
 その際には、Unobtrusive JavaScript (控えめな JavaScript)という考えかたをおすすめします。
 「控えめ」とは、JavaScript をサポートしているブラウザでは機能し、インタラクションを提供しますが、JavaScript　をサポートしていないブラウザでは「何事もなかったかのように」する（それによって、ユーザー行動を妨げないこと）を指します。
 
-### コンポーネントアーキテクチャ
+### コンポーネント指向　という考えかた 
 
 https://www.componentdriven.org
 
@@ -56,41 +55,8 @@ https://bootcamp.uxdesign.cc/why-product-development-and-design-needs-cohesion-c
 
 https://www.figma.com/best-practices/component-architecture/#nested-components
 
-コンポーネントは次のものを持っています。
-- 独自の JavaScript クラス(最終的には)
-- DOM 構造: これはそのクラスによってのみ管理され、外部のコードはそこにアクセスしません("カプセル化"の原則)。
-- CSS スタイル: コンポーネントに適用されます。
-- API: 他のコンポーネントとやり取りするためのイベントやクラスメソッドなどです。
-繰り返しますが、“コンポーネント” というもの自体は特別なものではありません。
-
 https://flaviocopes.com/react-presentational-vs-container-components/
 
-それらを構築するための多くのフレームワークと開発方法論があり、それぞれ独自のオプション機能を持っています。通常は、“コンポーネント”(CSS スコープと DOM のカプセル化) を提供するのに、特別なCSSクラスと規約が使用されます。
-“Web コンポーネント” はそのためのブラウザ組み込みの機能です。
-
-- YouTube
-- PhotoShop
-- Bing
-- VS Code
-- Microsoft
-- Salesforce
-
-どのようにして、Web Components がリリースされたのか、その歴史を振り返ります。
-
-- イントロダクション
-  - Web Components は、Web の標準であり、UI の基礎を築くための技術。
--　Web Components の思想
-  - 設計思想 / コンポーネント設計
-  - Figma / デザインシステム
-  - 具体例
-  - メリット、デメリット
-- Web Components が使われている現場
-  - YouTube
-  - PhotoShop
-  - Bing
-  - VS Code
-  - Microsoft
-  - Salesforce
 - Web Components の歴史
   - 2010
   - 2011
