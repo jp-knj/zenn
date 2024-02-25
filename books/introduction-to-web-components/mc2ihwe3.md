@@ -7,7 +7,6 @@ https://kinsta.com/jp/blog/web-components/
 
 どのようなプロセスで Web Components が生まれたのでしょうか。
 
-
 XMLHttpRequest が標準化され、技術的にはもう特別なライブラリがAjaxには必要なくなりました。
 私たちの中には、ライブラリを捨ててプラットフォームを直接使用し始めた人もいました。
 しかし、時間が経つにつれて、私たちは生の XMLHttpRequest API が不十分である。
@@ -24,6 +23,7 @@ XMLHttpRequest が標準化され、技術的にはもう特別なライブラ�
     - これらの解決策は、時には独占的であり、時にはオープンソースです。
 - 解決策が成熟し、広範な合意に達すると、標準化が行われます。
 - ステップ1に戻る。
+https://www.itmedia.co.jp/enterprise/articles/1709/26/news010.html
 
 Web Componentsの歴史
 
@@ -76,11 +76,11 @@ Custom Elements v0 として呼ばれていた。Shadow DOM に類似してい�
 https://web.archive.org/web/20130608123733/http://www.w3.org/TR/custom-elements/
 
 Polymer プロジェクトが開始されました。
-コンポーネントライブラリであり、MVCを使用して双方向のUIバインディングを提供しました。
+コンポーネントライブラリであり、MVC を使用して双方向の UI バインディングを提供しました。
 仕様とともに、リリースされています。
 https://web.archive.org/web/20130515211406/http://www.polymer-project.org/
 
-同時期に、React がリリースされました。Polymerが提供する双方向のUIバインディング(MVCルート)とは異なり、React は単方向のデータフローを提供しました。
+同時期に、React がリリースされました。Polymer が提供する双方向のUIバインディング(MVCルート)とは異なり、React は単方向のデータフローを提供しました。
 https://www.youtube.com/watch?v=GW0rj4sNH2w
 
 ## 2016, 2017

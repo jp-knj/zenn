@@ -7,6 +7,12 @@ Web Components は Web の UI コンポーネントを標準化し、エコシ�
 
 Web Components を支えているコンポーネントのアイデアは新しいものでは、ありません。多くのライブラリやフレームワークで使われています。
 
+HTML, CSS で基礎を構築して、JavaScript で機能を積み上げる実装になっています。
+これは、HTML Web Components の特徴です。
+
+- Progressive Enhancement である
+- コンポーネント指向である
+
 ### コンポーネントアーキテクチャ
 
 https://www.componentdriven.org
@@ -68,3 +74,14 @@ https://flaviocopes.com/react-presentational-vs-container-components/
   - VS Code
   - Microsoft
   - Salesforce
+- Web Components の歴史
+  - 2010
+  - 2011
+  - 2013
+  - 2016, 2017
+- Web Components の基礎
+- 構成要素
+- Web Components の実践
+  - フレームワークとの組み合わせ
+      - ライブラリ
+      - ツール
