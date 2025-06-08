@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "browser-sync": "^2.26.14",
-    "zenn-cli": "^0.1.144"
+    "zenn-cli": "^0.1.161"
   },
   "devDependencies": {
     "textlint": "13.3.3",
