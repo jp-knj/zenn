@@ -1,9 +1,9 @@
 ---
 title: "es-module-lexerで読み解く依存関係解析"
-emoji: "🤖"
+emoji: "🪢"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ['astro', 'knip', 'vite', 'esm', 'javascript']
-published: false
+published: true
 ---
 
 ## はじめに
