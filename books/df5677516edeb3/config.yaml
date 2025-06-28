@@ -6,15 +6,15 @@ price: 800 # 有料の場合200〜5000
 # 本に含めるチャプターを順番に並べましょう
 # 第1部: 基礎と思想
 chapters:
-  - why-astro-unique          # Astroの独創性と誕生背景
-  - islands-deep-dive         # Islands Architectureの理論と実装
-  - zero-js-philosophy        # Zero-JS Philosophyの実現
+  - 01-why-astro-unique          # Astroの独創性と誕生背景
+  - 02-islands-deep-dive         # Islands Architectureの理論と実装
+  - 03-zero-js-philosophy        # Zero-JS Philosophyの実現
 # 第2部: コア技術  
-  - astro-compiler-internals  # コンパイラとレンダリング内部
-  - multi-framework-magic     # マルチフレームワーク統合技術
-  - hydration-strategies      # ハイドレーション戦略とパフォーマンス
-  - vite-plugin-architecture  # Viteプラグインアーキテクチャ
+  - 04-astro-compiler-internals  # コンパイラとレンダリング内部
+  - 05-multi-framework-magic     # マルチフレームワーク統合技術
+  - 06-hydration-strategies      # ハイドレーション戦略とパフォーマンス
+  - 07-vite-plugin-architecture  # Viteプラグインアーキテクチャ
 # 第3部: 実践と応用
-  - content-collections-system # Content Collections深掘り
-  - performance-benchmarks    # パフォーマンス計測と最適化
-  - extending-astro          # Astro拡張とエコシステム
+  - 08-content-collections-system # Content Collections深掘り
+  - 09-performance-benchmarks    # パフォーマンス計測と最適化
+  - 10-extending-astro          # Astro拡張とエコシステム
