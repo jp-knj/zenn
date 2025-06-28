@@ -1,8 +1,46 @@
 ---
-title: "ビルドパイブラインの内部構造"
+title: "Zero-JS Philosophyの実現"
 ---
 
-# Astro Renderer Architecture完全解説ガイド
+# Zero-JS Philosophyの実現
+
+## TL;DR
+
+---
+
+## 1. 「Zero-JS」の本質的な意味
+
+### デフォルト静的HTML生成の仕組み
+### JavaScriptコストの可視化
+### Progressive Enhancement復活の背景
+
+---
+
+## 2. 静的生成パイプラインの内部実装
+
+### Astroファイルの解析とHTML変換
+### JSXからHTMLへの変換プロセス
+### CSSとアセットの最適化
+
+---
+
+## 3. 選択的JavaScript配信
+
+### client:*ディレクティブの判定ロジック
+### バンドル分割戦略
+### ランタイムコストの最小化
+
+---
+
+## 4. パフォーマンスへの影響分析
+
+### FCP・LCP・TTIの改善データ
+### バンドルサイズ比較（vs SPA）
+### SEOスコアの向上
+
+---
+
+## 5. まとめ & 次章へのブリッジ
 
 ## はじめに
 

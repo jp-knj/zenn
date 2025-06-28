@@ -1,12 +1,20 @@
 title: "だいたいわかるAstroの中身"
-summary: ""
-topics: []
+summary: "Astroの独自アーキテクチャをコードレベルで解剖。Islands Architecture、Multi-Framework Support、0-JS Philosophyの実現メカニズムを、パーサー・AST変換・レンダラー実装まで追跡し、Next.js・Nuxtとの決定的な違いを技術的に深掘り。"
+topics: ["astro", "islands-architecture", "compiler", "multi-framework", "zero-js"]
 published: false
-price: 0 # 有料の場合200〜5000
+price: 800 # 有料の場合200〜5000
 # 本に含めるチャプターを順番に並べましょう
+# 第1部: 基礎と思想
 chapters:
-  - example1
-  - example2
-  - example3
-  - example4
-  - example5
+  - why-astro-unique          # Astroの独創性と誕生背景
+  - islands-deep-dive         # Islands Architectureの理論と実装
+  - zero-js-philosophy        # Zero-JS Philosophyの実現
+# 第2部: コア技術  
+  - astro-compiler-internals  # コンパイラとレンダリング内部
+  - multi-framework-magic     # マルチフレームワーク統合技術
+  - hydration-strategies      # ハイドレーション戦略とパフォーマンス
+  - vite-plugin-architecture  # Viteプラグインアーキテクチャ
+# 第3部: 実践と応用
+  - content-collections-system # Content Collections深掘り
+  - performance-benchmarks    # パフォーマンス計測と最適化
+  - extending-astro          # Astro拡張とエコシステム
