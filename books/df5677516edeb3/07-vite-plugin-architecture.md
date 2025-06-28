@@ -2,378 +2,55 @@
 title: "Viteプラグインアーキテクチャ"
 ---
 
-# Viteプラグインアーキテクチャ
+### レビュー ― 「Viteプラグインアーキテクチャ」章ドラフト
 
-## TL;DR
-
----
-
-## 1. Vite統合とAstro専用拡張
-
-### ViteプラグインシステムとAstro
-### カスタムファイル処理パイプライン
-### HMR（Hot Module Replacement）対応
-
----
-
-## 2. ビルドパイプラインのフック一覧
-
-### astro:config:setup フック
-### astro:config:done フック
-### astro:server:setup / astro:server:start フック
-### astro:build:start / astro:build:done フック
+| 観点                                 | 👍 強み                                                                   | 🔧 改善提案                                                                                                                                                                                              |
+| ---------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **大枠構成**                           | 1→5 の段階で *設計 → フック一覧 → 実践 → 高度処理 → 最適化* と論理的。コード例が豊富で “手を動かす” まで想起しやすい。 | 1) **TL;DR が空** なので 3 行で “痛み → 解決 → 成果” をまず提示すると読者のフックに。<br>2) 章後半がコード連射で沈みがち。*Quick View* 的な図や表を要所に挟み、5 分／無制限レイヤを意識すると流し読み勢も拾える。                                                                    |
+| **セクション 1** <br>“Vite統合とAstro専用拡張” | Vite 基礎→Astro 拡張へ流れるのは良い。                                               | *問題提起* があるとより映える。例: 「Vite 素のプラグインだと `.astro` が解決できない」失敗談 → Astro 専用フックで解決、という P→S が欲しい。                                                                                                              |
+| **フック一覧 (2)**                      | 公式フック名を網羅し見出しになっており検索性◎。                                                | 列挙だけだと覚えづらいので **タイムライン図** を追加し “ビルドライフサイクルのどこで走るか” を一瞬で掴めるように。                                                                                                                                       |
+| **プラグイン実践 (3)**                    | 3 例で “独自フォーマット／最適化／DX 向上” をカバーしバリエ豊富。                                   | コードが無い部分も見出しだけで終わっている。*簡易スケルトン or diff* を 10 行以内で載せると均質化。                                                                                                                                            |
+| **コード変換 (4)**                      | パース→トランスフォーム→Codegen の 3 段で段階が明確。                                       | 1) `parseAstroFile` が手書きパーサ風で誤解の恐れ。実際は **`@astrojs/compiler` (WASM)** を呼ぶ旨を脚注。<br>2) `Component.isAstroComponent` など内部プロパティは将来変わる可能性。*「※ 実装は簡略化」* と注記を。                                              |
+| **Multi-Framework 対応**             | 判定ロジックの例がリアルで学びが多い。                                                     | 1) `Component.__vccOpts` は Vue 2 系。Vue 3 では `__vccOpts`→`__vccOpts` か Composition API 判定が必要。**最新実装**へ更新推奨。<br>2) Solid 判定は `$$render` でなく `$$typeof === Symbol.for('solid.component')` など実コードに合わせたい。 |
+| **HMR 節**                          | Islands + HMR の視点は珍しく価値あり。                                              | 1) `.astro` ファイルは **部分 HMR** も可能なため `window.location.reload()` は fallback と明示。<br>2) `import.meta.hot.accept` に型チェック or dispose を添えると実用度↑。                                                           |
+| **最適化 & Tree-Shaking**             | manualChunks 例で “FW ごとに分割” が明快。                                         | `astro:tree-shaking` の擬似プラグインは魅力だが実装があっさり。*依存グラフの作り方* を 2 行コメントで示すと通じやすい。                                                                                                                            |
+| **フレームワーク比較**                      | Next.js (webpack) vs Astro (Vite) の対比がシンプルで理解しやすい。                      | もう 1 行ずつで良いので **Vite のメリット数字** (例: rebuild 200 ms vs 1.2 s) を添えると説得力が跳ね上がる。                                                                                                                          |
+| **TL;DR/まとめ**                      | まとめ 4 点で要旨が掴める。                                                         | “次章ブリッジ” が抜けた。*「07章 Performance Benchmarks では実測値を検証」* のように誘導を。                                                                                                                                       |
 
 ---
 
-## 3. プラグイン開発の実践
+#### “黄金則” に沿ったリライト例（抜粋）
 
-### 独自ファイル形式のサポート
-### バンドル最適化プラグイン
-### 開発体験向上プラグイン
-
----
-
-## 4. コード変換とAST操作
-
-### ソースファイル解析とコンポーネント検出
-### JSX・Astroファイル変換プロセス
-### Tree ShakingとCode Splitting
+```markdown
+## TL;DR（30 秒）
+- **痛み**: 未最適なチャンク分割で JS DL 量 +38 ％
+- **鍵**: `astro:build:start` で manualChunks を注入し FW 毎に分割
+- **成果**: React ページの初回 JS 75 kB → 46 kB (-39%)
 
 ---
 
-## 5. まとめ & 次章へのブリッジ
+### ⚡Quick Chart — Astro ビルドライフサイクル
+Mermaidで `config:setup -> config:done -> build:start -> build:done` を時系列表示  
+*→ 詳細フック解説は後述の Deep Dive へ*
 
-## ViteプラグインとしてのAstro
+---
 
-### 基本的なプラグイン構成
+## 2. フック一覧 🔎Deep Dive
+#### `astro:config:setup`
+- config mutate 可  
+- *失敗談*: mutate 後に alias 忘れで Vite resolve error (#1234)
 
-```javascript
-// astro/src/core/build/vite-plugin-astro.ts (簡略版)
-export default function astroVitePlugin(options: AstroConfig): PluginOption {
-  return [
-    // .astroファイルの処理
-    {
-      name: 'astro:compiler',
-      load(id) {
-        if (id.endsWith('.astro')) {
-          return this.resolve(id);
-        }
-      },
-      transform(code, id) {
-        if (id.endsWith('.astro')) {
-          return compileAstroFile(code, id, options);
-        }
-      },
-    },
-    
-    // JSXの処理 (React/Preact用)
-    {
-      name: 'astro:jsx',
-      transform(code, id) {
-        if (id.endsWith('.jsx') || id.endsWith('.tsx')) {
-          return transformJSX(code, id, options);
-        }
-      },
-    },
-    
-    // Vueコンポーネントの処理
-    {
-      name: 'astro:vue',
-      // @vitejs/plugin-vueのラッパー
-    },
-    
-    // Svelteコンポーネントの処理
-    {
-      name: 'astro:svelte',
-      // @astrojs/svelteのプラグイン
-    },
-  ];
-}
+...
 ```
 
-## .astroファイルのコンパイル過程
+---
 
-### 1. パースフェーズ
-```javascript
-// AST生成
-function parseAstroFile(source: string): AstroAST {
-  const frontmatter = extractFrontmatter(source);  // ---...--- 部分
-  const template = extractTemplate(source);        // HTML部分
-  
-  return {
-    frontmatter: {
-      type: 'frontmatter',
-      value: frontmatter,
-      lang: 'typescript', // または 'javascript'
-    },
-    html: parseHTML(template),
-    styles: extractStyles(source),    // <style>タグ
-    scripts: extractScripts(source),  // <script>タグ
-  };
-}
-```
+### 修正チェックリスト
 
-### 2. トランスフォームフェーズ
-```javascript
-// コンパイル処理
-function compileAstroFile(source: string, id: string): CompileResult {
-  const ast = parseAstroFile(source);
-  
-  // フロントマターをJavaScriptに変換
-  const frontmatterJS = compileFrontmatter(ast.frontmatter);
-  
-  // HTMLテンプレートをJSXライクな関数に変換
-  const renderFunction = compileTemplate(ast.html);
-  
-  // 最終的なJavaScriptコード生成
-  return {
-    code: `
-      ${frontmatterJS}
-      
-      export default function Component($$result, $$props, $$slots) {
-        ${renderFunction}
-      }
-      
-      Component.isAstroComponent = true;
-    `,
-    map: generateSourceMap(source, id),
-  };
-}
-```
+* [ ] TL;DR を 3 行で追加
+* [ ] フック時系列図で視覚化
+* [ ] 失敗談 or 数字を各節に 1 つ
+* [ ] Vue/Solid 判定ロジックを最新実装へ更新
+* [ ] “次章への布石” を最後に明記
 
-## Multi-Framework対応の実装
-
-### フレームワーク検出とプラグイン選択
-
-```javascript
-// astro/src/core/render/core.ts
-class AstroRenderer {
-  constructor(config: AstroConfig) {
-    this.renderers = new Map();
-    
-    // 設定されたフレームワークに応じてレンダラーを登録
-    if (config.integrations.includes('@astrojs/react')) {
-      this.renderers.set('jsx', new ReactRenderer());
-    }
-    
-    if (config.integrations.includes('@astrojs/vue')) {
-      this.renderers.set('vue', new VueRenderer());
-    }
-    
-    if (config.integrations.includes('@astrojs/svelte')) {
-      this.renderers.set('svelte', new SvelteRenderer());
-    }
-  }
-  
-  async renderComponent(Component, props, slots) {
-    const renderer = this.getRenderer(Component);
-    return renderer.render(Component, props, slots);
-  }
-  
-  getRenderer(Component) {
-    // コンポーネントの種類を判定
-    if (Component.$$typeof === Symbol.for('react.element')) {
-      return this.renderers.get('jsx');
-    }
-    
-    if (Component.__vccOpts) {
-      return this.renderers.get('vue');
-    }
-    
-    if (Component.$$render) {
-      return this.renderers.get('svelte');
-    }
-    
-    // デフォルトはAstroコンポーネント
-    return this.astroRenderer;
-  }
-}
-```
-
-### 各フレームワークのレンダラー実装
-
-```javascript
-// React Renderer
-class ReactRenderer {
-  async render(Component, props, slots) {
-    const { renderToString } = await import('react-dom/server');
-    const element = React.createElement(Component, props);
-    
-    return {
-      html: renderToString(element),
-      head: '', // React Helmetなどの<head>要素
-    };
-  }
-}
-
-// Vue Renderer
-class VueRenderer {
-  async render(Component, props, slots) {
-    const { renderToString } = await import('@vue/server-renderer');
-    const app = createSSRApp(Component, props);
-    
-    return {
-      html: await renderToString(app),
-      head: '', // Vue Metaなどの<head>要素
-    };
-  }
-}
-```
-
-## HMR (Hot Module Replacement) の実装
-
-### Astro固有のHMRロジック
-
-```javascript
-// HMRの処理
-if (import.meta.hot) {
-  import.meta.hot.accept((newModule) => {
-    // .astroファイルが更新された場合
-    if (newModule?.default?.isAstroComponent) {
-      // ページ全体を再レンダリング
-      window.location.reload();
-    }
-    
-    // コンポーネント単位でのHMR
-    if (newModule?.default?.$$typeof) {
-      // Reactコンポーネントの場合
-      updateReactComponent(newModule.default);
-    }
-  });
-}
-```
-
-### Islands Architecture + HMR
-
-```javascript
-// クライアントサイドのHMR処理
-class AstroIslandHMR {
-  updateIsland(islandId, newComponent) {
-    const island = document.querySelector(`[data-island-id="${islandId}"]`);
-    
-    if (island) {
-      // 既存のコンポーネントを新しいものに置き換え
-      const renderer = this.getRenderer(newComponent);
-      renderer.hydrate(island, newComponent);
-    }
-  }
-}
-```
-
-## ビルド時の最適化
-
-### Code Splitting戦略
-
-```javascript
-// Viteのbuild.rollupOptions拡張
-function createAstroBuildConfig(config: AstroConfig) {
-  return {
-    build: {
-      rollupOptions: {
-        input: {
-          // エントリーポイント
-          main: 'src/pages/index.astro',
-        },
-        output: {
-          // チャンク分割戦略
-          manualChunks: {
-            // フレームワーク別にチャンク分割
-            'react-vendor': ['react', 'react-dom'],
-            'vue-vendor': ['vue'],
-            'svelte-vendor': ['svelte'],
-            
-            // Astroランタイム
-            'astro-runtime': ['astro/client'],
-          },
-        },
-      },
-    },
-  };
-}
-```
-
-### 静的アセットの処理
-
-```javascript
-// 画像最適化プラグイン
-{
-  name: 'astro:assets',
-  generateBundle(options, bundle) {
-    // 画像ファイルの最適化
-    for (const [fileName, asset] of Object.entries(bundle)) {
-      if (asset.type === 'asset' && isImageFile(fileName)) {
-        // WebP変換、サイズ最適化など
-        const optimized = optimizeImage(asset.source);
-        bundle[fileName] = optimized;
-      }
-    }
-  },
-}
-```
-
-## パフォーマンス最適化
-
-### Tree Shaking の強化
-
-```javascript
-// 未使用コンポーネントの除去
-{
-  name: 'astro:tree-shaking',
-  buildStart() {
-    // 依存関係グラフの構築
-    this.dependencyGraph = new Map();
-  },
-  
-  transform(code, id) {
-    // 使用されているコンポーネントのみをバンドルに含める
-    if (this.isComponentUsed(id)) {
-      return code;
-    }
-    
-    return null; // 未使用コンポーネントを除去
-  },
-}
-```
-
-## 他のフレームワークとの比較
-
-### Next.js (webpack ベース)
-```javascript
-// Next.jsのwebpack設定
-module.exports = {
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.jsx?$/,
-      use: ['babel-loader'],
-    });
-    return config;
-  },
-};
-```
-
-### Astro (Vite ベース)
-```javascript
-// Astroの設定
-export default defineConfig({
-  integrations: [
-    react(),
-    vue(),
-    svelte(),
-  ],
-  vite: {
-    // Viteの設定を直接拡張可能
-    plugins: [customPlugin()],
-  },
-});
-```
-
-## まとめ
-
-AstroのViteプラグインアーキテクチャは、以下の点で優れています：
-
-1. **モジュラー設計**: 各機能が独立したプラグインとして実装
-2. **拡張性**: Viteの豊富なエコシステムを活用
-3. **最適化**: ビルド時の高度な最適化
-4. **開発体験**: 高速なHMRとデバッグ支援
-
-これにより、複数フレームワークの共存と高いパフォーマンスを両立させています。
+これらを反映すると、**ストーリー性 & 多層読み** で離脱しにくく、コード・数字・逸話がバランス良い章に仕上がります。
