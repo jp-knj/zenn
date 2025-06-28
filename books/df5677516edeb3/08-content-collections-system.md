@@ -25,7 +25,7 @@
 ### ⚡Quick View — Content Collections の流れ
 ```
 
-Mermaid 図: Markdown → parse → Zod validate → type gen → cache → getCollection
+Mermaid図： Markdown → parse → Zod validate → type gen → cache → getCollection
 
 ```
 
@@ -43,10 +43,10 @@ Mermaid 図: Markdown → parse → Zod validate → type gen → cache → getC
 
 ### 修正チェックリスト
 
-1. [ ] TL;DR に数字付きフックを追加
-2. [ ] Quick View 図で全体フローを 5 秒把握できるように
-3. [ ] `ContentCollectionWatcher` のウォッチ・エラー部を 2–3 行補足
-4. [ ] 他 CMS 比較を表形式へ
+1. [ ] TL;DRに数字付きフックを追加
+2. [ ] Quick View図で全体フローを5秒把握できるように
+3. [ ] `ContentCollectionWatcher` のウォッチ・エラー部を2–3行補足
+4. [ ] 他CMS比較を表形式へ
 5. [ ] “次章ブリッジ” をまとめ末尾に明言
 
 これらを反映すると **ストーリー性・多層読み・数字スパイス** で読者のエンゲージメントがさらに高まり、実装詳細もよりリアルに伝わります。
