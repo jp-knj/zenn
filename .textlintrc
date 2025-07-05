@@ -3,5 +3,8 @@
     "preset-ja-technical-writing": true,
     "preset-jtf-style": true,
     "preset-ja-spacing": true,
+    "prh": {
+      "rulePaths": ["./prh.yml"]
+    }
   }
 }

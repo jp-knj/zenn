@@ -1,0 +1,16 @@
+version: 1
+
+rules:
+  # 日本語の鉤括弧を英語の引用符に変換
+  - expected: "\""
+    pattern: /「/
+    
+  - expected: "\""
+    pattern: /」/
+    
+  # 二重鉤括弧も変換
+  - expected: "\""
+    pattern: /『/
+    
+  - expected: "\""
+    pattern: /』/
