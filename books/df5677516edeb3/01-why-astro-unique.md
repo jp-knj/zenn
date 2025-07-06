@@ -6,12 +6,24 @@ Astroは"必要なJavaScriptだけを届ける"という明快な目標を掲げ
 
 この章を読み終えるころには、Astroの各機能が単なる実装上の都合ではなく、歴史的経緯と課題解決の必然から導かれたものであることが見えてくるはずです。
 
-## はじめに
+## なぜ"速い"はずのサイトが遅いのか
 
-サーバーで静的領域を生成し、動的領域にplaceholderを置き、クライアントで個別ハイドレートし、動的領域は同士は独立します。
+2020年時点、モバイルウェブページは75%で **約 3.7 MB** のリソースを転送しています。画像が最大の重いリソースになりますが、JavaScriptも2番目に重いリソースです。合計サイズを大きく押し上げています（HTTP Archive Web Almanac 2020 [Page Weight](https://almanac.httparchive.org/en/2020/page-weight/#page-weight) 章）。  
+3 G相当（下り400 kbps）の帯域で3.7 MBを取得すると、*Time to Interactive* は **およそ 8 秒**、*Interaction to Next Paint (INP)* も400 msを超えます。
 
-ページ全体を静的領域の"海"と動的領域の"島"に分割する考え方になります。
-サーバーが送り出すHTMLは即座に描画されます。ユーザーは待ち時間なく読み始めます。一方で島となる動的領域は、必要になった瞬間だけJavaScriptによって動き出します。
+ユーザーはタップしてから画面が反応するまで、はっきり体感できる待ち時間が発生するわけです。
+
+> *“JavaScript is the most expensive resource we send to mobile phones, because it can delay interactivity in a way that other resources don’t.”*
+> — Addy Osmani, *The Cost of JavaScript (2018)*【[GitNation GameSnacks トーク](https://gitnation.com/contents/making-bite-sized-web-games-with-gamesnacks)[1]】
+
+Google Chrome Labsも開発者向けガイドで"[Reduce JavaScript payloads with tree shaking](https://web.dev/articles/reduce-javascript-payloads-with-tree-shaking)"と題し、
+
+> “JavaScript is an expensive resource to process. … Byte for byte, JavaScript is more expensive than other types of resources.”
+> と警告しています。([web.dev][2])
+
+こうした数字とこのような情報が示すのは**大規模なJavaScriptバンドルが、ネットワークとCPUの両面でユーザー体験を阻害している**という事実です。
+
+この"肥大化問題"の全体像を整理しると、次のような要素が浮かび上がります。
 
 ## なぜ、Islands が必要だったのか
 
@@ -47,3 +59,6 @@ React Server Componentsが掲げる"送るJSの削減"、Remixが推進するPro
 ## まとめと次章への橋渡し
 
 JavaScript肥大化がもたらした問題から出発し、アイランドアーキテクチャを核とするAstroの設計思想を概観しました。ここで得た歴史的背景と三原則を頭に置くことで、次章以降の技術解説が"なぜそうするのか"という問いに自然と紐づくはずです。次章では、アイランドアーキテクチャをどのようにコードで実装し、ビルド時に静的HTMLとプレースホルダーを生成するのかを具体的に見ていきます。
+
+[1]: https://gitnation.com/contents/making-bite-sized-web-games-with-gamesnacks "Making “Bite-Sized” Web Games with GameSnacks by Alex Hawker"
+[2]: https://web.dev/articles/reduce-javascript-payloads-with-tree-shaking "Reduce JavaScript payloads with tree shaking  |  Articles  |  web.dev"
