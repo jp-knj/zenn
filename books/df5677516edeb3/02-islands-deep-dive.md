@@ -1,63 +1,175 @@
 ---
-title: "アイランドアーキテクチャの設計と実装"
+title: "Islands Architectureの理論と実装"
 ---
 
-第1章ではJavaScript肥大化という課題を位置付け、その解決策の方向性として"送るコードを減らす"思想を確認しました。本章では、その思想を具体的な形にした **アイランドアーキテクチャ** を、設計の意図からビルド・ランタイムの内部処理まで通しで解説します。読み終えたときには、Astroが高速性と柔軟性を両立するために取った設計判断が、コードレベルで腹落ちしていることを目指します。
+第1章ではJavaScript肥大化という課題を位置付け、その解決策の方向性として「送るコードを減らす」思想を確認しました。本章では、その思想を具体的な形にしたIslands Architectureを、設計の意図からビルドやランタイムの内部処理まで通しで解説します。
 
-## 章の目的
-
+## この章の目的
 1. アイランドアーキテクチャが採用された理由とメリットを理解する。
 2. ビルド時に静的HTMLと島のプレースホルダーを生成する仕組みを把握する。
 3. ランタイムが選択的ハイドレーションを行う流れを追体験する。
 4. 他フレームワークのアプローチと比較し、性能制御の違いを整理する。
 
-## 1. なぜ"島"に分割するのか
+## Islands Architectureとは
 
-従来のSPAでは、インタラクティブかどうかにかかわらずページ全体が1つのJavaScriptアプリとして扱われます。その結果、ユーザーが最初に見るべきコンテンツが大量のスクリプト解析を待たされるという本末転倒が生じていました。アイランドアーキテクチャはこの状況を逆転させます。まず静的なHTMLの "海" を即座に描画し、後から必要な部分だけを独立した "島" としてハイドレーションする。こうすることで表示の初速を確保しつつ、動的な振る舞いも失わない――ここに最大の利点があります。
+Astroのパフォーマンスを支える最も重要なコンセプトが「Islands Architecture（アイランドアくファリルはキテクチャ）」です。これは、Webページを静的なHTMLの「海」と、その中に浮かぶインタラクティブな「島（アイランド）」として構成する考え方です。
 
-加えて、島ごとに実行環境を切り分けるため、広告ウィジェットなど重いロジックの影響を記事本文に波及させずに済みます。JavaScriptが無効な環境でも基本情報は読めるというProgressive Enhancementの原則も、自動的に満たされます。
+- **海（Sea）** は、ページの大半を占める、静的でインタラクティブ性を持たないHTML。サーバーでレンダリングされ、ブラウザに配信されます。
+- **島（Island）** は、ボタン、画像カルーセル、検索フォームなど、インタラクティブなUIコンポーネント。これらの「島」だけが、クライアントサイドでJavaScript（JS）を読み込み、ハイドレーション（静的なHTMLにイベントリスナーなどを付与して動的にすること）されます。
 
-## 2. 静的 HTML と設計図を出力する
+このアーキテクチャにより、Astroはデフォルトで不要なJavaScriptを一切クライアントに送信しない「Zero-JS」を実現し、高速なページ読み込みを可能にしています。
 
-ビルドフェーズでは、Astroコンパイラがすべてのコンポーネントをサーバーサイドでレンダリングし、ページ全体をHTMLとして書き出します。`client:*` ディレクティブが付いたコンポーネントを検出すると、コンパイラは2つの仕事を行います。
+## 最小限のIslands Architectureを実装する
 
-* 該当コンポーネントと依存ライブラリを独立したJavaScriptファイルにバンドルする。
-* 元の位置に `<astro-island>` 要素を挿入し、島の設計図を属性としてシリアライズする。
+それでは、このIslands Architectureの仕組みを、簡単なコードで再実装してみましょう。目標は、特定のカスタム要素（例えば `<my-counter>` のような）を「島」として認識し、その島に対応するJavaScriptだけをクライアントで読み込む仕組みを作ることです。
 
-`<astro-island>` の属性にはコンポーネントURL、レンダラー URL、プロパティ、ハイドレーション戦略など必要な情報が格納されます。タグ内部にはサーバーが描いた初期HTMLがそのまま残るため、JavaScriptが未読込でもレイアウトが確定し、CLSを抑えられます。
+### 1. サーバーサイドでHTMLをスキャンする
 
-// codewalk
+まず、ビルド時やリクエスト時に、サーバーサイドで生成されたHTMLから「島」を見つけ出す必要があります。ここでは、正規表現を使って特定のカスタム要素を探索する簡単なスキャナを考えます。
 
-## 3. 選択的ハイドレーションを実行する
+```js:server-scanner.js
+// 探索対象のHTML（Astroコンポーネントから生成されたと仮定）
+const html = `
+  <html>
+    <body>
+      <h1>静的なコンテンツ</h1>
+      <p>ここはインタラクティブではありません。</p>
+      
+      <!-- これがインタラクティブな島 -->
+      <my-counter client:load></my-counter>
+      
+      <p>ここも静的なコンテンツです。</p>
+      
+      <!-- もう一つの島 -->
+      <my-counter client:visible></my-counter>
+    </body>
+  </html>
+`
 
-ブラウザにHTMLを描画した直後、わずか数キロバイトのAstroランタイムが動き始めます。役割はシンプルで、ページ内の `<astro-island>` を走査し、`client` 属性に従ってハイドレーションのタイミングを決定することです。
+// client:* ディレクティブを持つカスタム要素を見つける正規表現
+const islandRegex = /<([a-zA-Z0-9-]+)(\s+[^>]*?client:(load|visible|idle|media)=?["\\]?["\\]?[^"\\]*?["\\]?["\\]?[^>]*?)>.*?<\/\1>/gs
 
-`client="load"` が付いたナビゲーションはページ読み込みと同時に動作し、`client="visible"` が付いたカルーセルはIntersectionObserverで画面内に入るまでJavaScriptのフェッチを遅延します。こうしてリソースをファーストビューに不要な順に後回しにし、体感速度を高めています。
+const islands = []
+let match
+while ((match = islandRegex.exec(html)) !== null) {
+  islands.push({
+    componentName: match[1],
+    html: match[0],
+    directive: match[2], // client:load など
+  })
+}
 
-// codewalk
+console.log('見つかった島:', islands)
+```
 
-## 4. 他アーキテクチャとの比較
+このコードは、`client:*`という特別なディレクティブを持つカスタム要素をHTMLから探し出します。Astroでは、このディレクティブが、コンポーネントをインタラクティブな島として扱うための目印となります。
 
-Next.js (App Router) ではサーバーコンポーネントを採用し、`'use client'` ディレクティブでクライアント側の境界を宣言します。一方、Astroのアイランドはページ上の任意の要素を島として切り出し、`client:*` ディレクティブでハイドレーション条件を指定します。どちらも"必要な場所にだけJavaScriptを届ける"という目標を共有しており、設計の単位とAPIが異なるだけです。
+### 2. クライアントサイドでハイドレーションする
 
-### 粒度と責務の違い
+次に、サーバーサイドで見つけた島を、クライアントサイドで動的にするためのスクリプトを考えます。このスクリプトは、ページの読み込みが完了した際に、対応するコンポーネントのJavaScriptをインポートし、カスタム要素を「ハイドレーション」します。
 
-* **Astro**: UIの断面を島として分離し、React・Vue・Svelteなど複数フレームワークをページ単位で共存させられます。
-* **Next.js**: Reactに特化し、コンポーネント階層で"サーバー / クライアント"の境界を分けるアプローチを取ります。
+```js:client-hydrator.js
+// サーバーから渡された情報（どのコンポーネントをいつハイドレーションするか）
+const islandsToHydrate = [
+  { componentName: 'my-counter', selector: 'my-counter[client\\:load]', strategy: 'load' },
+  { componentName: 'my-counter', selector: 'my-counter[client\\:visible]', strategy: 'visible' },
+]
 
-### 選定時の観点
+// コンポーネントのコードを動的にインポートする関数
+async function hydrateComponent(island) {
+  // 対応するコンポーネントのJSファイルを動的にインポート
+  // 実際には、ビルド時にコンポーネント名とファイルパスのマッピングが生成される
+  const component = await import(`./components/${island.componentName}.js`)
+  
+  // カスタム要素を登録
+  if (component.default && !customElements.get(island.componentName)) {
+    customElements.define(island.componentName, component.default)
+  }
+  console.log(`${island.componentName} がハイドレーションされました。`)
+}
 
-| 観点           | Astro                                 | Next.js (App Router)             |
-| ------------ | ------------------------------------- | -------------------------------- |
-| UI フレームワーク混在 | ページ内で複数フレームワークを利用可能                   | React に最適化                       |
-| ルーティング       | 静的生成 + SSR オプション                      | 動的ルーティングと SSR を標準装備              |
-| ハイドレーション宣言   | `client:*` ディレクティブ                    | `'use client'`                   |
-| データ取得        | Content Collections, `getStaticPaths` | React Server Components, `fetch` |
+// ハイドレーション戦略に基づいて実行
+function initHydration() {
+  islandsToHydrate.forEach(island => {
+    if (island.strategy === 'load') {
+      // ページ読み込み完了時に実行
+      window.addEventListener('DOMContentLoaded', () => hydrateComponent(island))
+    }
+    if (island.strategy === 'visible') {
+      // 要素がビューポートに入ったら実行
+      const elements = document.querySelectorAll(island.selector)
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            hydrateComponent(island)
+            observer.unobserve(entry.target)
+          }
+        })
+      })
+      elements.forEach(el => observer.observe(el))
+    }
+  })
+}
 
-両者は"必要な箇所にだけコードを送る"という同じ課題に対する異なる解法です。規模感、チームの技術スタック、SEO要件など複数軸で評価し、単純な軽重比較ではなく、プロジェクトに適した選択を行うことが現実的です。
+initHydration()
+```
 
-## 5. まとめと次章への橋渡し まとめと次章への橋渡し
+### 3. コンポーネントの実装
 
-アイランドアーキテクチャは"表示を急ぎ、動作を遅らせる"戦略をコードレベルで形にしたものです。ビルド時に静的HTMLと設計図を生成し、ランタイムで必要最小限のJavaScriptを段階的に読み込む。この二段構えがAstroの高速性の土台にあります。
+最後に、インタラクティブな島となるカウンターコンポーネント自体を実装します。これは、標準的なWeb Components（カスタム要素）として作成します。
 
-次章では、複数のUIフレームワークを1つのページに共存させるAstroのレンダラーシステムを掘り下げ、React・Vue・Svelteがどのように同居して動くのかを解明します。
+```js:components/my-counter.js
+
+class MyCounter extends HTMLElement {
+  constructor() {
+    super()
+    this.attachShadow({ mode: 'open' })
+    this.count = 0
+  }
+
+  connectedCallback() {
+    this.render()
+    this.shadowRoot.querySelector('button').addEventListener('click', () => {
+      this.count++
+      this.render()
+    })
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        div { border: 1px solid black; padding: 1rem; }
+      </style>
+      <div>
+        <p>Count: ${this.count}</p>
+        <button>Increment</button>
+      </div>
+    `
+  }
+}
+
+export default MyCounter
+```
+
+Islands Architectureが提起した「海と島」という比喩は、2025年現在、主要フレームワークの設計思想そのものを塗り替えつつあります。ページ全体を一気にハイドレートする従来型の手法では、ダウンロードと実行の両面で過剰なJavaScriptを抱え込みやすく、初回表示と操作可能になるまでの間に大きなギャップが残ります。ここでは、React、Vue、Svelteが近年どのようにして「必要な場所だけに実行時ロジックを届ける」方向へ舵を切ったかを、順に掘り下げます。
+
+### React
+
+React 18までは`hydrateRoot`を境にページ全体をまとめてハイドレートし、`React.lazy`や`import()`で初期バンドルを小さくしても「結局どこかで大量のJSを実行する」問題が残っていました。2025年6月に安定版となったReact 19では、その前提そのものが反転します。Server Componentsと`"use client"`ディレクティブが安定化し、クライアントに届くのはインタラクティブな境界部分だけ、その他はHTMLと最小限のシリアライズ済みデータに置き換わります。Next.js 15のApp Routerでは、この境界を並列ストリーミングで送り出すため、HTMLが即座に描画され、必要分のJSが後から到着する流れが標準化されました。フォーム送信やペンディング表示を`useTransition`に委ねることで、クライアント側fetchも一段と減らせるようになり、実測で送信JSが半分前後まで圧縮された事例が報告されています。
+
+### Vue
+
+Vue 3自体はランタイムが小さいものの、アプリ全体を一括ハイドレートすればReactと同じ課題を抱えます。これに対しNuxt 3以降は`*.server.vue`コンポーネントと`<NuxtIsland>`を組み込み、島の中身を静的HTMLとして返し、クライアントJSをまったく送らない設計を正式機能にしました。動的箇所が必要になった瞬間にだけ再フェッチして差し替えるため、同じSSRでも再ハイドレートのJS量が劇的に小さくなります。さらに`vue-lazy-hydration`の`<LazyHydrate>`ラッパーを併用すれば、ビューポートに入る直前のタイミングで初めてハイドレートを走らせることも可能です。2025年7月にRC入りしたNuxt 4では、これらの機能がデフォルト設定のまま組み合わさり、サーバーコンポーネントと遅延ハイドレーションの相乗効果で、送信JSを一桁キロバイトまで押し下げたケースも報告されています。
+
+### Svelte 
+
+Svelteは「コンパイル時にランタイムを捨てる」という思想により、初期からバンドルサイズが小さいのが強みでした。ただしSvelteKitでSSR後にページ全体を即ハイドレートする限り、「必要ないのに実行されるJS」をゼロにはできません。次期メジャーであるSvelte 5はRunes導入で依存解析が細粒度化し、コンパイラ側で「この要素にはJS不要」と判断した箇所を自動的に静的化する準備が進んでいます。GitHub上では`partial-hydration-sk`など実験的プラグインが既に動いており、`hydrate: false`をデフォルトにして`<Island>`で囲んだ部分だけクライアントJSを注入するアプローチが実用域に入りつつあります。Runesを乱用すると再びバンドルが膨らむため、`$state`よりも`$derived`や`$effect`で依存を局所化し、コンパイラに「不要コードを捨てさせる」書き方が推奨され始めています。
+
+### 共通する最適化の流れ
+
+三つのエコシステムは方向性こそ違えど、「HTMLとJSの境界を宣言的に示す」「ビューポートやユーザー操作をトリガーに初めてハイドレートする」という二つの原則で収束しています。その結果、送信するJavaScriptの総量は、かつてのSPA全体ハイドレート方式と比べて桁違いに削減され、同じSSR/SSGでもTTIが短縮されるだけでなく、長時間の実行時メモリも抑制できます。今後はRustベースのRolldownのような並列ビルド対応バンドラが、未使用エクスポートの除去をより確実にし、さらにJS量を削る役割を担う見込みです。
+
+### まとめ
+
+ReactはServer Componentsの安定化で「デフォルトはサーバー」に転換し、VueはNuxt IslandとLazy Hydrationを公式機能に取り込み、SvelteはRunesによるコンパイラ強化で自動部分ハイドレーションに近づいています。どのコミュニティも、静的HTMLを守りながら「いつ、どこへ、どれだけJSを流すか」を宣言的に制御できる方向へと収束しており、Islands Architectureが描いた「海と島」の境界は、単なる比喩を超えてWebフレームワークの共通設計原則になりつつあります。
+
