@@ -20,11 +20,95 @@ Astroは、この問題を解決するために、フレームワークごとの
 
 より永続的な状態共有が必要な場合、例えばショッピングカートのような機能では、URLのクエリパラメータやブラウザの`localStorage`、`sessionStorage`といったWeb標準のAPIを介して状態を同期させることが推奨されます。これにより、特定のフレームワークに依存しない、堅牢な状態管理が実現できます。
 
-## 4. 【実践演習】自作レンダラーのひな形を実装する
+## 4. 【実践】レンダラーの抽象化とレジストリの実装
+
+理論を学んだところで、この「統一レンダラーシステム」の基本的な考え方を、簡単なコードで実装してみましょう。ここでは、仮想的なReactとVueのレンダラーを定義し、ファイル名に応じて適切なレンダラーを選択する仕組みを作ります。
+
+### ステップ1: レンダラーのインターフェース定義
+
+まず、すべてのレンダラーが持つべき共通の機能（インターフェース）を決めます。ここでは、コンポーネントをHTML文字列に変換する`renderToString`という関数を持つこと、とします。
+
+```javascript
+// renderers/react-renderer.js
+// （Reactのレンダリング関数のダミー）
+export const reactRenderer = {
+  renderToString(component, props) {
+    const propsString = JSON.stringify(props)
+    console.log('Reactレンダラーで描画します')
+    return `<div data-framework="react" data-props='${propsString}'>${component.name}</div>`
+  }
+}
+
+// renderers/vue-renderer.js
+// （Vueのレンダリング関数のダミー）
+export const vueRenderer = {
+  renderToString(component, props) {
+    const propsString = JSON.stringify(props)
+    console.log('Vueレンダラーで描画します')
+    return `<div data-framework="vue" data-props='${propsString}'>${component.name}</div>`
+  }
+}
+```
+
+### ステップ2: レンダラーレジストリの作成
+
+次に、どのファイル拡張子がどのレンダラーに対応するかを管理する「レジストリ（登録所）」を作成します。これは単なるオブジェクト（連想配列）です。
+
+```javascript
+// renderer-registry.js
+import { reactRenderer } from './renderers/react-renderer.js'
+import { vueRenderer } from './renderers/vue-renderer.js'
+
+export const rendererRegistry = {
+  '.jsx': reactRenderer,
+  '.tsx': reactRenderer,
+  '.vue': vueRenderer,
+}
+```
+
+### ステップ3: ビルドプロセスでの利用
+
+最後に、ビルドプロセスがこのレジストリを使って、コンポーネントのファイル名に応じたレンダラーを呼び出す処理を実装します。これにより、ビルドプロセス自体はReactやVueの詳細を知ることなく、レンダリング処理を各レンダラーに委譲できます。
+
+```javascript
+// build.js (一部抜粋)
+import { rendererRegistry } from './renderer-registry.js'
+import path from 'path'
+
+// 仮想的なコンポーネントとそのファイルパス
+const MyReactComponent = { name: 'MyReactComponent' }
+const MyVueComponent = { name: 'MyVueComponent' }
+
+const componentsToBuild = [
+  { filePath: './components/hello.jsx', component: MyReactComponent, props: { msg: 'Hello' } },
+  { filePath: './components/world.vue', component: MyVueComponent, props: { msg: 'World' } },
+]
+
+function buildComponents() {
+  for (const item of componentsToBuild) {
+    const ext = path.extname(item.filePath)
+    const renderer = rendererRegistry[ext] // レジストリから適切なレンダラーを取得
+
+    if (renderer) {
+      const html = renderer.renderToString(item.component, item.props)
+      console.log(`Output for ${item.filePath}:`)
+      console.log(html, '\n')
+    } else {
+      console.log(`No renderer found for ${item.filePath}`)
+    }
+  }
+}
+
+buildComponents()
+```
+
+この仕組みにより、新しいフレームワーク（例えばSvelte）に対応したい場合でも、ビルドプロセス自体を修正することなく、`svelte-renderer.js`を作成して`renderer-registry.js`に一行追加するだけで済むようになります。これが、Astroの拡張性の高いマルチフレームワーク対応の基本設計です。
+
+## 5. 【実践演習】自作レンダラーのひな形を実装する
 
 この統一レンダラーシステムの仕組みを深く理解するために、仮想のUIフレームワーク"MiniUI"向けのレンダラーを実装する演習を考えてみましょう。まず、AstroのCLIが提供する`astro add`コマンドの仕組みを参考に、レンダラーのひな形を作成します。`check.ts`ファイルには、コンポーネントが持つべき特有のプロパティ（例： `comp.__mini === true`）を判定するロジックを記述します。`renderToStaticMarkup.ts`では、サーバーサイドで単純なHTML文字列（例： `<button>Hello</button>`）を返す関数を実装します。そしてクライアント側の`hydrate.ts`では、そのボタン要素にクリックリスナーを追加し、アラートを表示させる処理を書きます。この一連の作業を通じて、新しいフレームワークをAstroエコシステムに対応させることが、明確に定義されたインターフェースを実装する作業であることが体感できるはずです。
 
-## 5. 【まとめと次章へ】
+## 6. 【まとめと次章へ】
 
 この章では、Astroが統一レンダラーシステムという巧妙な抽象化レイヤーによって、フレームワーク混在の複雑さを克服していることを学びました。また、アイランド間の通信がWeb標準の技術でシンプルに実現できることも理解できたはずです。
 

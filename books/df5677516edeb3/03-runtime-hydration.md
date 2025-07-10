@@ -6,7 +6,7 @@ title: "ランタイムの仕組み：ハイドレーションと対話性の復
 
 この章では、ブラウザが静的なHTMLを受け取った後、どのようにしてJavaScriptを実行し、コンポーネントに"命を吹き込む"のか、その核心である"ハイドレーション"の仕組みを深掘りします。
 
-## 1. 【実装】ランタイム処理と選択的ハイドレーション
+## 1. 【理論】ランタイム処理と選択的ハイドレーション
 
 ブラウザでページが読み込まれると、まず静的HTMLが即座に表示されます。この段階ではJavaScriptはほとんど実行されないため、ページの表示は極めて高速です。静的コンテンツの表示後、Astroの軽量なランタイムスクリプトが実行され、ページ内に埋め込まれた`<astro-island>`要素をすべて検出し、どのコンポーネントをいつハイドレーションするかの計画を立てます。
 
@@ -14,13 +14,105 @@ Astroが提供する各ハイドレーション戦略は、異なるユースケ
 
 ハイドレーション条件が満たされると、ランタイムは該当するコンポーネントのJavaScriptファイルと、それに対応するフレームワークのレンダラーを動的に読み込みます。その後、各フレームワーク固有のハイドレーション関数（例えばReactの`hydrateRoot`）が呼び出され、サーバーで生成された静的HTMLのDOM構造とクライアントで実行されるコンポーネントの仮想DOMを照合し、イベントリスナーなどをアタッチしてインタラクティブ性を付与します。
 
-ハイドレーション完了後、各アイランドは独立した状態を持つようになります。アイランド間で通信が必要な場合は、`window.dispatchEvent`と`window.addEventListener`を使ったカスタムイベントによる疎結合な通信が推奨されますが、ReduxやPiniaといった各フレームワークのエコシステムの状態管理ライブラリを利用することも可能です。
+## 2. 【実践】最小限のハイドレーションを実装する
 
-## 2. 【考察】開発者体験とテスト戦略
+理論を学んだところで、これまでの章で作成した仕組みを連携させ、実際にブラウザ上で「島」がインタラクティブになるまでの流れを再現してみましょう。
 
-Astroは、ブラウザの開発者ツールでハイドレーションの状況を簡単に確認できる機能を提供し、パフォーマンスチューニングを支援します。また、TypeScriptを完全にサポートしており、アイランドに渡されるpropsの型チェックなどがビルド時に行われるため、安全な開発が可能です。
+### ステップ1: ビルドプロセスによるスクリプトの埋め込み
 
-Astroアプリケーションのテストは、複数の階層で行うことが推奨されます。まず、生成されたHTMLの構造や内容を検証する静的コンテンツのテスト。次に、各アイランドをそれぞれのフレームワークの標準的なテストツール（Jest, Testing Libraryなど）でテストするコンポーネントテスト。そして最後に、PlaywrightやCypressを使い、ハイドレーション後のインタラクティブな動作をブラウザ上で検証するE2Eテストです。この多層的なテスト戦略により、アプリケーション全体の品質を担保します。
+まず、ビルドプロセス（`build.js`）を修正し、ハイドレーションを実行するためのクライアント側スクリプトを、生成するHTMLに埋め込むようにします。また、どのコンポーネントをハイドレーションするかの情報も、`<script type="application/json">`タグを使ってHTML内に埋め込みます。
+
+```javascript
+// build.js の build 関数を修正
+
+// ... (前略)
+for (const filePath of astroFiles) {
+  // ... (中略)
+  const finalHtml = compile(fileContent) // コンパイル処理
+
+  // islandを見つけて情報を収集する処理（実際にはコンパイラが担う）
+  const islands = findIslandsInHtml(finalHtml)
+
+  // ハイドレーションスクリプトと情報をHTMLに追加
+  const htmlWithHydration = addHydrationScript(finalHtml, islands)
+
+  // ... (distへの書き出し処理)
+  await fs.writeFile(distPath, htmlWithHydration)
+}
+// ... (後略)
+
+// HTMLにスクリプトを埋め込むヘルパー関数
+function addHydrationScript(html, islands) {
+  const islandData = JSON.stringify(islands)
+  return `
+    ${html}
+    <script type="application/json" id="astro-islands">${islandData}</script>
+    <script type="module" src="/hydrate.js"></script>
+  `
+}
+```
+
+### ステップ2: クライアント側ハイドレーションスクリプト
+
+次に、クライアント側で動作する `hydrate.js` を作成します。このスクリプトは、`02-islands-deep-dive.md` で作成したものをベースに、HTMLに埋め込まれた情報（`astro-islands`）を読み取って動作するようにしたものです。
+
+```javascript
+// public/hydrate.js (distディレクトリにコピーされる想定)
+
+console.log('Hydration script loaded')
+
+// 埋め込まれたアイランド情報を取得・パース
+const islandDataElement = document.getElementById('astro-islands')
+const islandsToHydrate = JSON.parse(islandDataElement.textContent)
+
+async function hydrateComponent(island) {
+  // コンポーネントのJSファイルを動的にインポート
+  // 実際のAstroでは、ビルド時にコンポーネント名とファイルパスのマッピングが生成される
+  const component = await import(`/components/${island.componentName}.js`)
+  
+  if (component.default && !customElements.get(island.componentName)) {
+    customElements.define(island.componentName, component.default)
+    console.log(`${island.componentName} hydrated!`)
+  }
+}
+
+function initHydration() {
+  islandsToHydrate.forEach(island => {
+    const element = document.querySelector(island.selector)
+    if (!element) return
+
+    if (island.strategy === 'load') {
+      hydrateComponent(island)
+    }
+    if (island.strategy === 'visible') {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            hydrateComponent(island)
+            observer.unobserve(entry.target)
+          }
+        })
+      })
+      observer.observe(element)
+    }
+  })
+}
+
+// DOMの準備ができてからハイドレーションを開始
+document.addEventListener('DOMContentLoaded', initHydration)
+```
+
+### ステップ3: 動作確認
+
+ここまでの実装を終え、ビルドを実行して`dist/index.html`をブラウザで開くと、次のような流れが確認できます。
+
+1.  HTMLがレンダリングされ、静的なコンテンツが表示される。
+2.  `hydrate.js`が読み込まれ、実行される。
+3.  `hydrate.js`が`id="astro-islands"`の`script`タグからどの島をハイドレーションするかの情報を読み取る。
+4.  `client:load`が指定されたコンポーネント（例: `<my-header>`）が即座にハイドレーションされる。
+5.  ページをスクロールして`client:visible`が指定されたコンポーネント（例: `<my-footer>`）が表示領域に入ると、`IntersectionObserver`がそれを検知し、そのコンポーネントがハイドレーションされる。
+
+これにより、ビルド時に静的生成されたページが、ブラウザ上で動的にインタラクティブ性を取り戻す、というAstroの基本的なランタイムの仕組みを再現することができました。
 
 ## 3. 【まとめと次章へ】
 

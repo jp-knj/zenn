@@ -21,6 +21,132 @@ Astroの`.astro`ファイルは、HTML、JSX、TypeScript、そして`client:*`�
 
 すべての変換パスが完了すると、最終的なコード生成の段階に入ります。ここでは、コンポーネントごとに適切なレンダラー（React, Vueなど）が選択され、そのレンダラーの`renderToStaticMarkup`関数が呼び出されて静的なHTMLが生成されます。インタラクティブなアイランドに対しては、ハイドレーションに必要な情報をすべて含んだ"ハイドレーション・マニフェスト"がJSON形式で生成され、クライアントサイドのJavaScriptに埋め込まれます。このようにして、サーバーサイドで実行されるべき処理とクライアントサイドで実行されるべき処理が、ビルド時に明確に分離されるのです。
 
+## 【実践】最小限のAstroコンパイラを実装する
+
+理論を学んだところで、次はこの知識を元に、非常にシンプルなAstroコンパイラを実際に作ってみましょう。ここでの目標は、`.astro`ファイル文字列を受け取り、最終的なHTML文字列を返す関数を実装することです。
+
+### ステップ1: ファイルの解析
+
+最初のステップは、`.astro`ファイルの内容を「フロントマター（JavaScriptコード部分）」と「テンプレート（HTML部分）」の2つに分割することです。これは正規表現を使って行います。
+
+```javascript
+// mini-astro-compiler.js
+
+function parseAstro(fileContent) {
+  const frontmatterRegex = /^---([\s\S]*?)---/
+  const match = fileContent.match(frontmatterRegex)
+
+  if (!match) {
+    // フロントマターがない場合は、全体をテンプレートとして扱う
+    return { frontmatter: '', template: fileContent }
+  }
+
+  const frontmatter = match[1].trim()
+  // フロントマター部分を削除して、残りをテンプレートとする
+  const template = fileContent.replace(frontmatterRegex, '').trim()
+
+  return { frontmatter, template }
+}
+
+// --- テスト ---
+const astroFile = `
+---
+const pageTitle = "Astroコンパイラを作ろう"
+---
+<html>
+  <head>
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <h1>{pageTitle}</h1>
+  </body>
+</html>
+`
+
+const { frontmatter, template } = parseAstro(astroFile)
+console.log("フロントマター:", frontmatter)
+console.log("テンプレート:", template)
+```
+
+### ステップ2: フロントマターの実行と変数の取得
+
+次に、抽出したフロントマターのJavaScriptコードを実行して、テンプレートで使われる変数の値を取得する必要があります。セキュリティ上の理由から、実際のAstroコンパイラはViteなどを使って安全にこれを実行しますが、ここでは簡易的に`eval`の考え方を使って実装してみましょう。（注: `eval`は危険なため、実際のアプリケーションでは使用しないでください）。
+
+```javascript
+// (parseAstro関数の下に追記)
+
+function executeFrontmatter(frontmatter) {
+  const exports = {}
+  // 'const'や'let'などを'exports.'に置換することで、簡易的に変数を取得
+  const codeToRun = frontmatter.replace(/(const|let|var) /g, 'exports.')
+  
+  // 簡易的なサンドボックスで実行
+  try {
+    const func = new Function('exports', codeToRun)
+    func(exports)
+  } catch (e) {
+    console.error("フロントマターの実行に失敗しました", e)
+    return {}
+  }
+
+  return exports
+}
+
+// --- テスト ---
+const astroFile2 = `
+---
+const name = "Astro"
+const version = 4.0
+---
+<p>{name} v{version}</p>
+`
+const parsed = parseAstro(astroFile2)
+const variables = executeFrontmatter(parsed.frontmatter)
+console.log("フロントマターから取得した変数:", variables) // { name: 'Astro', version: 4.0 }
+```
+
+### ステップ3: テンプレートへの変数埋め込み
+
+最後のステップは、フロントマターから得られた変数を、テンプレート内の `{}` に埋め込んでいく（レンダリングする）処理です。これも簡単な文字列置換で実現できます。
+
+```javascript
+// (executeFrontmatter関数の下に追記)
+
+function renderTemplate(template, variables) {
+  // {variableName} という形式のプレースホルダーを正規表現で探す
+  const placeholderRegex = /\{([^}]+)\}/g
+
+  return template.replace(placeholderRegex, (match, variableName) => {
+    // 変数名がvariablesオブジェクトに存在すれば、その値に置き換える
+    return variables[variableName.trim()] || match
+  })
+}
+
+// --- 最終的なコンパイラ関数 ---
+function compile(astroCode) {
+  const { frontmatter, template } = parseAstro(astroCode)
+  const variables = executeFrontmatter(frontmatter)
+  const finalHtml = renderTemplate(template, variables)
+  return finalHtml
+}
+
+// --- テスト ---
+const finalHtml = compile(astroFile)
+console.log("最終的なHTML:", finalHtml)
+/*
+<html>
+  <head>
+    <title>Astroコンパイラを作ろう</title>
+  </head>
+  <body>
+    <h1>Astroコンパイラを作ろう</h1>
+  </body>
+</html>
+*/
+```
+
+これで、`.astro`ファイルの内容を解析し、変数を埋め込んでHTMLを生成する、ごく小規模なコンパイラが完成しました。実際のAstroコンパイラは、コンポーネントのインポート、JSXのサポート、スコープ付きCSSの処理など、遥かに多くの機能を持っていますが、その基本的な思想は「解析」「実行」「レンダリング」というこの3ステップに基づいています。
+
 ## 4. 【まとめと次章へ】
 
 この章では、Astroコンパイラが、言語の混在という困難な課題を独自のアーキテクチャで克服し、高速なビルドを実現している仕組みを解説しました。パーサー、AST変換、コード生成という一連の流れを理解することで、Astroの魔法の裏側にある技術的な洗練さを垣間見ることができたはずです。

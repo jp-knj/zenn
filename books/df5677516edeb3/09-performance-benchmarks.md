@@ -18,13 +18,54 @@ Googleが重要視するCore Web Vitalsの3指標、すなわちLCP、CLS、そ�
 
 また、INPに関しても、Astroは有利な特性を持っています。SPAでは初期ロード時に全コンポーネントのイベントハンドラが読み込まれ、メインスレッドを逼迫させがちですが、Astroではインタラクティブなアイランドのみがハイドレーション対象となります。このため、ボタンクリック等のインタラクションに対する応答性が高く、INPは良好な数値を維持しやすいのです。
 
-## 3. 【考察】バンドルサイズとアーキテクチャの関連性
+## 3. 【実践】Performance Observer APIでWeb Vitalsを計測する
+
+Lighthouseのような総合的なツールも強力ですが、特定のパフォーマンス指標を継続的に監視したい場合、ブラウザに組み込まれている`PerformanceObserver` APIが非常に役立ちます。これを使って、Core Web Vitalsの各指標をコンソールに出力する簡単なスクリプトを作成してみましょう。
+
+このコードは、どのウェブサイトでもブラウザの開発者ツールのコンソールに貼り付けて実行できます。
+
+```javascript
+// ブラウザのコンソールで実行するコード
+
+console.log('Performance Observerを起動します。')
+
+const observer = new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    // CLS (Cumulative Layout Shift)
+    if (entry.entryType === 'layout-shift') {
+      console.log(`CLS: ${entry.value}`)
+    }
+    // LCP (Largest Contentful Paint)
+    if (entry.entryType === 'largest-contentful-paint') {
+      console.log(`LCP: ${entry.startTime.toFixed(2)}ms`)
+    }
+    // INP (Interaction to Next Paint) の近似値として Long Animation Frames を監視
+    if (entry.entryType === 'long-animation-frame') {
+      console.log(`Long Animation Frame (INPのヒント): ${entry.duration.toFixed(2)}ms`)
+    }
+  }
+})
+
+// 監視対象のパフォーマンス指標を指定
+observer.observe({
+  type: ['layout-shift', 'largest-contentful-paint', 'long-animation-frame'],
+  buffered: true, // 過去のイベントも取得
+})
+
+console.log('LCP, CLS, Long Animation Frame (INPのヒント) の監視を開始しました。')
+```
+
+このスクリプトを実行した状態でページを操作（スクロールやクリック）すると、レイアウトのズレ（CLS）や、最も大きなコンテンツの表示時間（LCP）、そしてインタラクションへの応答性のヒントとなる長い処理（Long Animation Frame）が発生するたびに、その値がコンソールに出力されます。
+
+例えば、ハイドレーション戦略の章で試したように、全コンポーネントを`client:load`にした場合と、`client:visible`などに最適化した場合とで、このスクリプトを実行してLCPやLong Animation Frameの数値を比較すれば、Astroの最適化がブラウザレベルでどのような影響を与えているかを直接的に観測することができます。
+
+## 4. 【考察】バンドルサイズとアーキテクチャの関連性
 
 Astroサイトのパフォーマンスの根源は、その圧倒的に小さなバンドルサイズにあります。Next.jsのようなSPAフレームワークは、ページの描画、ルーティング、状態管理を行うための"ランタイム"をクライアント側で必要とするため、同等のページでも数十から数百キロバイトのJavaScriptを要求します。対して、Astroはデフォルトでは一切のクライアントサイドランタイムを持たず、HTMLを直接配信するため、JavaScriptの初期ロードサイズを数キロバイトにまで抑えることが可能です。この差が、特にモバイルデバイスや低速回線環境下での体感速度に決定的な違いを生むのです。
 
 Astroでビルド時に画像URLを取得し、`<img>`タグを直接HTMLに埋め込むように修正するだけで、LCPが2秒以上短縮されたという事例もあります。これは、ブラウザがHTMLを解析した時点で画像の存在を検知し、すぐに読み込みを開始できるためです。JavaScriptの実行を待つ必要がないという、サーバーファーストアーキテクチャの単純かつ強力な利点を示しています。
 
-## 4. 【まとめと次章へ】
+## 5. 【まとめと次章へ】
 
 本章では、Astroへの移行がLCPやバンドルサイズに与える定量的な効果を、再現性のある手順と共に示しました。また、INPを含むCore Web Vitalsの全項目が良好な結果を示す技術的背景を解明しました。パフォーマンスは一度きりの最適化で終わるものではなく、継続的な計測と改善が不可欠です。
 
