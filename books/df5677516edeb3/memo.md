@@ -19,73 +19,73 @@ JavaScript肥大化の歴史をひもとき、SPAとSSRの進化が抱えた負�
 
 ## 第２部　コア技術の深層
 
-### 第２章　ビルドパイプライン：静的HTML生成
+### 第２章　.astroファイルパーサーの実装
 
-問い：.astroファイルはどのように解析・変換され、どこまでJavaScriptを削減できるのか
+問い：フロントマター、HTML、JavaScript式が混在する.astroファイルをどう解析するのか
 
-ここから実装へ移る。`.astro`ファイルがコンパイラに読み込まれ、抽象構文木へ変換され、フレームワークごとのレンダラーがサーバーサイドでHTMLを生成し、最後にViteがtree shakingとcode splittingで不要なバイトを削ぎ落とす。その工程をTypeScriptの行単位まで追跡する。フェーズごとに削減できたファイルサイズやビルド時間を計測し、前章の思想が具体的に形になる。
+Astroの基盤となるパーサーを実装する。正規表現とステートマシンを組み合わせ、.astroファイル特有の構文を認識し、抽象構文木（AST）へと変換する。フロントマターの切り出し、HTMLとJavaScript式の境界検出、コンポーネント参照の解決など、パーサー実装の要所を押さえながら、コンパイラの第一歩を踏み出す。
 
 **実装演習**: 章末で簡易.astroパーサーの実装（100行程度）を行い、基本的な構文解析の仕組みを体験する。
 
-### 第３章　コンパイラ内部構造の探訪
+### 第３章　シンプルなHTMLビルダーの構築
 
-問い：混在するHTML／JSX／TypeScriptを、Astroコンパイラはどう高速にさばくのか
+問い：ASTから純粋なHTMLをどのように生成し、最初の静的ページを作り出すか
 
-ストリーミング・パーサーとインクリメンタルAST、型情報の逆参照を駆使したエラー検出を分解し、１ファイルを変換するたびに何がキャッシュされ、何が再計算されるのかを明らかにする。
+パースしたASTを走査し、HTMLを生成する最小限のビルダーを実装する。再帰的なノード処理、属性の適切な処理、テキストのエスケープ、自己完結型タグの扱いなど、HTMLジェネレーターの基礎を固める。この時点で、JavaScriptを含まない静的なHTMLページの生成が可能となり、後の章で拡張していく土台が完成する。
 
-**実装演習**: 基本的なトランスフォーマーを実装し、ASTからHTMLへの変換プロセスを実践する。
+**実装演習**: 基本的なHTMLシリアライザーを実装し、ASTからHTMLへの変換プロセスを実践する。
 
-### 第４章　ランタイム：選択的ハイドレーションの実際
+### 第４章　マルチフレームワークレンダラーの統合
+
+問い：React・Vue・Svelteを統一的に扱い、サーバーサイドでHTMLを生成するにはどうするか
+
+各フレームワークのSSR APIの違いを吸収する統一レンダラーインターフェースを設計・実装する。ReactのrenderToString、VueのcreateSSRApp、SvelteのComponent.renderといった異なるAPIを共通の抽象化層でラップし、.astroファイル内でのシームレスなフレームワーク混在を実現する仕組みを構築する。
+
+### 第５章　完全なビルドパイプラインの実装
+
+問い：開発時の高速フィードバックと本番時の最適化をどう両立させるか
+
+これまでの要素を統合し、Viteプラグインとして本格的なビルドシステムを構築する。開発サーバーでのHMR、.astroファイルの変換、仮想モジュールの生成、本番ビルドでのtree shakingとcode splittingまで、モダンなビルドツールチェーンの内部動作を実装を通じて理解する。
+
+### 第６章　選択的ハイドレーション戦略
 
 問い：ブラウザは<astro-island>をいつ、どのようにインタラクティブへ変貌させるのか
 
-Astroが仕込んだ軽量スクリプトがマニフェストをもとに島を特定し、client:*戦略ごとにJSを遅延ロードする様子をトレースする。IntersectionObserverがトリガを司る場面や、イベント再結合で発生する落とし穴と回避策も示す。
+client:load、client:visible、client:idle、client:mediaの各戦略を実装する。IntersectionObserverによる遅延ロード、requestIdleCallbackを使った優先度制御、メディアクエリーによる条件付きハイドレーションなど、静的HTMLを選択的にインタラクティブ化する仕組みを構築し、パフォーマンスとUXの最適なバランスを探る。
 
 **実装演習**: client:visibleの最小実装を通じて、遅延ハイドレーションの核心を理解する。
 
-### 第５章　マルチフレームワーク統合技術
-
-問い：React・Vue・Svelteを１ページで共存させる設計はどう成り立つのか
-
-統一レンダラーAPIと各フレームワーク固有のSSR手続きの橋渡しロジックを紐解き、島ごとの状態共有やイベント境界の扱いまで踏み込む。
-
-### 第６章　ハイドレーション戦略とパフォーマンス最適化
-
-問い：`client:*`戦略を切り替えると実測INPはどこまで改善できるのか
-
-load・visible・idle・media各戦略の内部実装を読み解き、ベンチマークサイトでCore Web Vitalsがどう変化するかを検証する。遅延実行の副作用として発生するUXギャップへの対応策も探る。
-
-### 第７章　Viteプラグインアーキテクチャ
-
-問い：AstroはViteをどう拡張して.astro専用ローダーとisland最適化を成立させているのか
-
-開発サーバーとRollupビルドの二面構造を横断し、仮想モジュール、HMR、並列バンドルが.astroの開発体験をどのように支えているかを解剖する。
-
-## 第３部　実践と応用、そして未来
-
-### 第８章　Content Collectionsと型安全なコンテンツ管理
+### 第７章　Content Collectionsと型安全なコンテンツ管理
 
 問い：フロントマターの型不整合をどのように解消し、Markdownを型安全に扱うか
 
-Zodスキーマで宣言した型をもとにビルド時検証とTypeScript型生成を行う仕組みを実装し、コンテンツ間の参照整合性まで保証するワークフローを提示する。
+Zodスキーマで宣言した型をもとにビルド時検証とTypeScript型生成を行う仕組みを実装する。Markdownローダー、JSONローダーの実装から、コンテンツ間の参照整合性チェック、型定義ファイルの自動生成まで、コンテンツ駆動型サイトの開発体験を向上させるシステムを構築する。
 
-### 第９章　パフォーマンス計測と最適化
+## 第３部　実践と応用、そして未来
 
-問い：Astroサイトのボトルネックをどう特定し、どの順序で改善するか
+### 第８章　パフォーマンス計測と最適化
 
-ラボ計測とRUMを組み合わせ、LCP・CLS・INPを継続監視するCIパイプラインを構築。最適化実験の結果を数値で検証し、失敗例も共有する。
+問い：実装したフレームワークのボトルネックをどう特定し、どの順序で改善するか
 
-### 第１０章　Astroの拡張とエコシステム
+Lighthouse CIを導入し、Core Web Vitals（LCP、CLS、INP）を継続的に計測する環境を構築する。クリティカルCSSの抽出、リソースヒントの自動挿入、画像最適化、プリフェッチ戦略など、実測値に基づいた最適化を施し、その効果を数値で検証する。失敗した最適化の事例も含め、実践的な知見を共有する。
 
-問い：独自インテグレーションとサーバーエンドポイントでAstroをどこまで拡張できるか
+### 第９章　開発体験（DX）の向上
 
-Integration APIとBuild Hooksを駆使し、APIルートやCMS連携、分析ツール挿入など高度なユースケースを構築。Astroのロードマップとコミュニティ動向も展望し、読者自身の拡張アイデアを刺激する。
+問い：フレームワーク利用者の生産性をどのように高めるか
+
+エラーオーバーレイの実装、わかりやすいエラーメッセージの設計、TypeScript Language Serverとの連携、自動補完の提供など、開発者体験を向上させる機能を実装する。VSCode拡張の基礎から、デバッグ支援機能まで、フレームワークを「使いやすく」する技術を学ぶ。
+
+### 第１０章　エコシステムと未来への拡張
+
+問い：プラグインシステムでAstroをどこまで拡張できるか
+
+Integration APIとBuild Hooksを実装し、サードパーティによる拡張を可能にする。CMSとの連携アダプター、デプロイメントアダプター、分析ツールの統合など、実用的なインテグレーションを構築する。最後に、View Transitions API、エッジランタイム対応、Server Componentsなど、次世代Web技術への展望を示す。
 
 ---
 
 ## 読後の成果物
 
-最終的に読者はmonorepo形式の **astro-lite** を完成させる。`pnpm dev`で`examples/blog`を立ち上げれば、Islands Architectureと型安全Content Collectionsを兼ね備えたHMR環境が動作する。各章の実装演習が積み重なり、この成果物へと結実する。
+最終的に読者はmonorepo形式の「re-astro」を完成させる。`pnpm dev`で`examples/blog`を立ち上げれば、Islands Architectureと型安全Content Collectionsを兼ね備えたHMR環境が動作する。各章の実装演習が積み重なり、この成果物へと結実する。
 
 ```text
 astro-lite/
@@ -105,36 +105,38 @@ astro-lite/
 │  ├─ compiler/                    # 第２章・第３章で実装
 │  │  ├─ src/
 │  │  │  ├─ parse.ts              # 第２章：パーサー実装
-│  │  │  ├─ transform.ts          # 第３章：トランスフォーマー実装
-│  │  │  ├─ serializer.ts
+│  │  │  ├─ html-builder.ts       # 第３章：HTMLビルダー実装
+│  │  │  ├─ transform.ts
 │  │  │  └─ codegen.ts
 │  │  └─ package.json
 │  │
-│  ├─ vite-plugin/                # 第７章で実装
+│  ├─ renderer-react/             # 第４章で実装
+│  │  └─ src/index.ts
+│  ├─ renderer-vue/               # 第４章で実装
+│  │  └─ src/index.ts
+│  ├─ renderer-svelte/            # 第４章で実装
+│  │  └─ src/index.ts
+│  │
+│  ├─ vite-plugin/                # 第５章で実装
 │  │  ├─ src/
 │  │  │  ├─ load-astro.ts
-│  │  │  ├─ island-plugin.ts
-│  │  │  └─ content-plugin.ts
+│  │  │  ├─ hmr.ts
+│  │  │  ├─ build.ts
+│  │  │  └─ optimizer.ts
 │  │  └─ package.json
 │  │
-│  ├─ runtime/                    # 第４章で実装
+│  ├─ runtime/                    # 第６章で実装
 │  │  ├─ src/
 │  │  │  ├─ index.ts
 │  │  │  ├─ manifest.ts
-│  │  │  └─ strategies/          # 第６章で拡張
+│  │  │  └─ strategies/
 │  │  │     ├─ load.ts
 │  │  │     ├─ visible.ts
-│  │  │     └─ idle.ts
+│  │  │     ├─ idle.ts
+│  │  │     └─ media.ts
 │  │  └─ package.json
 │  │
-│  ├─ renderer-react/             # 第５章で実装
-│  │  └─ src/index.ts
-│  ├─ renderer-vue/
-│  │  └─ src/index.ts
-│  ├─ renderer-svelte/
-│  │  └─ src/index.ts
-│  │
-│  ├─ content/                    # 第８章で実装
+│  ├─ content/                    # 第７章で実装
 │  │  ├─ src/
 │  │  │  ├─ index.ts
 │  │  │  ├─ loaders/
@@ -145,7 +147,6 @@ astro-lite/
 │  │  │  ├─ generator/
 │  │  │  │  ├─ manifest.ts
 │  │  │  │  └─ dts-gen.ts
-│  │  │  ├─ vite-plugin.ts
 │  │  │  └─ runtime.ts
 │  │  └─ package.json
 │  │
