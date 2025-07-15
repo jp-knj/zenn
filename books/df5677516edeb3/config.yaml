@@ -1,21 +1,19 @@
 title: "Astroを再実装する教科書"
-summary: "「もしAstroを自作するとしたら？」——この問いをガイドに、コンパイラ、アイランドアーキテクチャ、レンダラーの核心を、手を動かしながら再実装していく旅へ。フレームワークの内部構造を深く理解し、Astroの本質を掴むための、新しい実践書です。"
+summary: "「もしAstroを自作するとしたら？」——この問いをガイドに、コンパイラ、アイランドアーキテクチャ、レンダラーの核心を、手を動かしながら再実装していく。フレームワークの内部構造を深く理解し、Astroの本質を掴むための、実践書。"
 topics: ["astro", "islands-architecture", "compiler", "multi-framework", "zero-js"]
 published: false
 price: 0 # 有料の場合200〜5000
-# 本に含めるチャプターを順番に並べましょう
-# 第1部: 基礎と思想
+# 第1部: 思想と設計の原点
 chapters:
-  - 01-why-astro-unique          # Astroの独創性と誕生背景
-  - 02-islands-deep-dive         # Islands Architectureの理論と実装
-  - 03-build-process             # ビルドの仕組み：静的HTML生成の舞台裏
-  - 03-runtime-hydration         # 実行時の仕組み：ハイドレーションと対話性の復元
-# 第2部: コア技術  
-  - 04-astro-compiler-internals  # コンパイラとレンダリング内部
-  - 05-multi-framework-magic     # マルチフレームワーク統合技術
-  - 06-hydration-strategies      # ハイドレーション戦略とパフォーマンス
-  - 07-vite-plugin-architecture  # Viteプラグインアーキテクチャ
-# 第3部: 実践と応用
-  - 08-content-collections-system # Content Collections深掘り
-  - 09-performance-benchmarks    # パフォーマンス計測と最適化
-  - 10-extending-astro          # Astro拡張とエコシステム
+  - 01-islands-architecture           # Islands Architectureという革新
+  # 第2部: コア技術の深層
+  - 02-astro-parser                  # .astroファイルパーサーの実装
+  - 03-html-builder                  # シンプルなHTMLビルダーの構築
+  - 04-multi-framework-renderer      # マルチフレームワークレンダラーの統合
+  - 05-build-pipeline                # 完全なビルドパイプラインの実装
+  - 06-selective-hydration           # 選択的ハイドレーション戦略
+  - 07-content-collections           # Content Collectionsと型安全なコンテンツ管理
+  # 第3部: 実践と応用、そして未来
+  - 08-performance-optimization      # パフォーマンス計測と最適化
+  - 09-developer-experience          # 開発体験（DX）の向上
+  - 10-ecosystem-extensions          # エコシステムと未来への拡張
