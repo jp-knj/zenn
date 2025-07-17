@@ -2,28 +2,62 @@
 title: "Astroの設計思想とIslands Architecture"
 ---
 
-Astroは"必要なJavaScriptだけを届ける"という明快な目標を掲げて誕生しました。本書では、その内部構造と設計判断を自作するつもりで分解し、読み手が自らのコードに置き換えて再現できるレベルまで掘り下げていきます。第1章はAstroが生まれた背景と根底にある思想を整理します。
+## はじめに
 
-この章を読み終えるころには、Astroの各機能が単なる実装上の都合ではなく、歴史的経緯と課題解決の必然から導かれたものであることが見えてくるはずです。
+Astroの強さの正体とは、なんでしょうか。私は問い直すことがあります。
 
-## なぜ"速い"はずのサイトが遅いのか
+初期表示の速さが印象的でした。ビルドされたページは静的なHTMLとして即座に描画されます。インタラクティブな部分も滑らかに表示されます。重いライブラリを読み込む場面が少ない。ネットワークが混雑していても軽やかに動きます。
 
-2020年時点、モバイルウェブページは75%で **約 3.7 MB** のリソースを転送しています。画像が最大の重いリソースになりますが、JavaScriptも2番目に重いリソースです。合計サイズを大きく押し上げています（HTTP Archive Web Almanac 2020 [Page Weight](https://almanac.httparchive.org/en/2020/page-weight/#page-weight) 章）。  
-3 G相当（下り400 kbps）の帯域で3.7 MBを取得すると、*Time to Interactive* は **およそ 8 秒**、*Interaction to Next Paint (INP)* も400 msを超えます。
+この"速さ"はいったいどこから来るのでしょうか。
 
-ユーザーはタップしてから画面が反応するまで、はっきり体感できる待ち時間が発生するわけです。
+最新のアルゴリズムが使われているわけではありません。ReactやVueのように革新的な状態管理モデルを備えているわけでもありません。むしろAstroは、技術の足し算ではなく、引き算の思想に徹した設計を選びました。
 
-> *“JavaScript is the most expensive resource we send to mobile phones, because it can delay interactivity in a way that other resources don’t.”*
-> — Addy Osmani, *The Cost of JavaScript (2018)*【[GitNation GameSnacks トーク](https://gitnation.com/contents/making-bite-sized-web-games-with-gamesnacks)[1]】
+機能を減らす。JavaScriptを送らない。ページ全体を再構築しない。必要な箇所にだけ、必要な最小のコードを送る。この一見素朴とも思える方針が、なぜこれほどまでに効果的だったのでしょうか。
 
-Google Chrome Labsも開発者向けガイドで"[Reduce JavaScript payloads with tree shaking](https://web.dev/articles/reduce-javascript-payloads-with-tree-shaking)"と題し、
+本章では、その問いを入り口に、Astroの設計思想とそれが生まれた時代的背景をたどっていきます。Astroを一度バラバラに分解し、あなた自身の手で再び組み立てる。その過程を通じて、"なぜこの選択がなされたのか"を追体験していきます。
 
-> “JavaScript is an expensive resource to process. … Byte for byte, JavaScript is more expensive than other types of resources.”
-> と警告しています。([web.dev][2])
+> 私たちは、本当に「すべての場所にJavaScriptが必要なのか」を問い直すことから始めなければなりませんでした。
 
-こうした数字とこのような情報が示すのは**大規模なJavaScriptバンドルが、ネットワークとCPUの両面でユーザー体験を阻害している**という事実です。
 
-この"肥大化問題"の全体像を整理しると、次のような要素が浮かび上がります。
+## JavaScript肥大化の時代
+
+2020年ごろ、多くの開発者がある感覚を抱いていました。"最適化しているはずなのに、ページが遅い"
+
+GoogleのAddy Osmaniは、2018年に発表した [The Cost of JavaScript](https://v8.dev/blog/cost-of-javascript-2018) において、  
+JavaScriptは"ダウンロードされてから実行されるまでのすべての工程で、CPUに重い負荷を与えるリソース"であると指摘しました。
+
+とくにローエンド端末では、わずか1MBのJavaScriptを読み込むだけで数秒の初期化時間が発生します。これは、HTMLやCSSが即座に表示されるのと対照的です。
+
+```ts
+// 図1: モバイル端末における JavaScript 実行コスト（2019年 Chrome DevTools 実測）
+Download: 約 200ms（4G回線）
+Parse/Compile: 約 1,100ms
+Execute: 約 1,500ms
+Total: 約 2,800ms
+````
+
+つまり、JavaScriptは読み込んだ直後から、画面の操作性を数秒単位で遅らせる原因となり得るのです。
+
+さらに [Web Almanac 2020](https://almanac.httparchive.org/en/2020/page-weight/#page-weight) は、 モバイルページのJavaScript転送量の中央値が450KBに達していることを報告しました。
+
+これはテキストベースのHTML（30〜50KB）やCSS（100〜150KB）と比べて、圧倒的に大きな割合を占めていることになります。
+
+この負荷は、体感にも直結します。2020年、Googleは新たにINP（Interaction to Next Paint）という指標をCore Web Vitalsに導入しました。
+INPは"ユーザーがタップやクリックなどの操作をしてから、画面が実際に反応するまでの時間"を測るもので、ユーザー体験そのものを測る指標です。
+
+ページが"表示されたように見えても、操作すると反応しない"。そのような現象は、ページ全体をJavaScriptで制御する設計によって引き起こされていました。
+
+> いかに速く表示されても、操作できなければ「使えるページ」とは言えない。
+> INP の登場は、そうした根源的なズレを可視化する契機となったのです。
+
+もちろん、[web.dev](https://web.dev/articles/reduce-javascript-payloads-with-tree-shaking) にあるように、
+Tree Shakingやコード分割、遅延読み込みといった技術は、改善の努力として重ねられてきました。
+
+しかし、それでもJSを"ページ全体"に載せる前提が残っていれば、どれだけ圧縮しても、必要以上に多くのJavaScriptがブラウザに届く構造は変わりません。
+
+Astroは、まさにこの"構造の前提"そのものを疑ったのです。送る量を減らすのではなく、"そもそも送らない"ことを基準に再設計する。
+
+その発想の転換が、次に登場するIslands Architectureでした。
 
 ## なぜ、Islands が必要だったのか
 
