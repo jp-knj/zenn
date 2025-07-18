@@ -5,10 +5,10 @@ published: false
 price: 0 # 有料の場合200〜5000
 # 第1部: 思想と設計の原点
 chapters:
-  - 01-islands-architecture           # Islands Architectureという革新
+  - 01_islands-architecture           # Islands Architectureという革新
   # 第2部: コア技術の深層
-  - 02-astro-parser                  # .astroファイルパーサーの実装
-  - 03-html-builder                  # シンプルなHTMLビルダーの構築
+  - 02_astro-parser                  # .astroファイルパーサーの実装
+  - 03_html-builder                  # シンプルなHTMLビルダーの構築
   - 04-multi-framework-renderer      # マルチフレームワークレンダラーの統合
   - 05-build-pipeline                # 完全なビルドパイプラインの実装
   - 06-selective-hydration           # 選択的ハイドレーション戦略
