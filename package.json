@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "browser-sync": "^2.26.14",
-    "zenn-cli": "^0.1.161"
+    "browser-sync": "^3.0.4",
+    "zenn-cli": "^0.2.10"
   },
   "devDependencies": {
     "textlint": "13.3.3",
